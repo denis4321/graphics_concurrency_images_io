@@ -1,0 +1,307 @@
+package myPackage;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import java.awt.Rectangle;
+import javax.swing.JList;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ListCellRenderer;
+import java.awt.Component;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.GridBagLayout;
+import java.awt.*;
+import java.util.Random;
+import javax.swing.JTabbedPane;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.*;
+import javax.swing.JOptionPane;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Frame4 extends JFrame {
+
+    Random rnd = new Random();
+    JPanel contentPane;
+    //TreeObserverModel Model1 = new TreeObserverModel();
+    DataModelClass
+            model = new DataModelClass(),
+    model1 = new DataModelClass();
+    JScrollPane jScrollPane1 = new JScrollPane();
+    //JList jList1 = new JList();
+    JButton jButton1 = new JButton();
+    JButton jButton2 = new JButton();
+    JButton jButton3 = new JButton();
+    GridBagLayout gridBagLayout1 = new GridBagLayout();
+    JButton jButton4 = new JButton();
+    JButton jButton5 = new JButton();
+    JList jList1 = new JList();
+    JScrollPane jScrollPane2 = new JScrollPane();
+    JList jList2 = new JList();
+    public Frame4() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+
+
+            jList2.setModel(model1);
+        jList2.setCellRenderer(new DefaultListCellRenderer(){
+                JLabel lab = new JLabel();
+
+                public Component getListCellRendererComponent(JList list,
+                        Object value, int index, boolean isSelected,
+                       boolean cellHasFocus) {
+      //        String  trt= value.toString();
+    //System.out.println(value+"dsf");
+               lab=(JLabel) super.getListCellRendererComponent(list,value,index,isSelected,cellHasFocus);
+               model1.dinamicPaint();
+                    return lab;
+               }
+               });
+
+
+            jList1.setModel(model);
+            jList1.setCellRenderer(new DefaultListCellRenderer(){
+                JLabel lab1 = new JLabel();
+
+              public Component getListCellRendererComponent(JList list,
+                        Object value, int index, boolean isSelected,
+                        boolean cellHasFocus) {
+                    Thread t= (Thread)value;
+               lab1=(JLabel) super.getListCellRendererComponent(list," "+t.getName()+"-----------"+t.getState(),index,isSelected,cellHasFocus);
+                  model.dinamicPaint();
+                    return lab1;
+               }
+               });
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(gridBagLayout1);
+        setSize(new Dimension(619, 300));
+        setTitle("Frame Title");
+        jButton1.setText("Новый поток");
+        jButton1.addActionListener(new Frame4_jButton1_actionAdapter(this));
+        jButton2.setText("Пауза\\Возобновить");
+        jButton2.addActionListener(new Frame4_jButton2_actionAdapter(this));
+        jButton3.setText("Убить");
+        jButton3.addActionListener(new Frame4_jButton3_actionAdapter(this));
+        jButton4.setText("Убить всех");
+        jButton4.addActionListener(new Frame4_jButton4_actionAdapter(this));
+        jButton5.setText("Пауза\\Возобновить всех");
+        jButton5.addActionListener(new Frame4_jButton5_actionAdapter(this));
+        jScrollPane1.getViewport().add(jList1);
+        contentPane.add(jButton1, new GridBagConstraints(0, 1, 2, 1, 0.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 4, 4, 4), 0, 0));
+        contentPane.add(jButton2, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 4, 4, 4), 0, 0));
+        contentPane.add(jButton5, new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 4, 4, 4), 0, 0));
+        contentPane.add(jButton3, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 4, 4, 0), 0, 0));
+        contentPane.add(jButton4, new GridBagConstraints(4, 1, 1, 1, 0.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 4, 4, 4), 0, 0));
+        jScrollPane2.getViewport().add(jList2);
+        contentPane.add(jScrollPane1,
+                        new GridBagConstraints(1, 0, 2, 1, 1.0, 1.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.BOTH,
+                                               new Insets(0, 0, 0, 7), 0, 0));
+        contentPane.add(jScrollPane2,
+                        new GridBagConstraints(3, 0, 3, 1, 1.0, 1.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.BOTH,
+                                               new Insets(0, 0, 0, 7), 0, 0));
+    }
+
+
+    public void jButton1_actionPerformed(ActionEvent e) {
+        try {
+           PrintStream old =System.out;
+        PipedOutputStream pOut=new PipedOutputStream();
+        PipedInputStream pIn = new PipedInputStream(pOut);
+         PrintStream print = new PrintStream(pOut);
+         System.setOut(print);
+        Potok1 p=new Potok1();
+        model.setElementThread(p);
+        //if (p.getName().matches("thread #1")){p.setPriority(5);}
+        p.setPriority(Thread.NORM_PRIORITY);
+        p.start();
+        //p.myMonitoring();
+        p.myMon(p.getThreadGroup());
+        BufferedInputStream in = new BufferedInputStream(pIn);
+                System.setOut(old);
+                model1.delAllTgreads();
+                 String s="";
+                while (in.available()>0){
+                    String str=((char)in.read())+"";
+                    if( str.matches("]") ){
+                     model1.setElementThread(s+"]");
+                     s="";
+                    }
+                    else{  s=s+str;}
+                }
+                in.close();
+                pIn.close();
+    }
+        catch (Exception ert){
+        }
+    }
+
+
+    public void jButton2_actionPerformed(ActionEvent e) {
+        int i=jList1.getSelectedIndex();
+        if (i!=-1){
+        Potok1 t=(Potok1)model.getElementAt(i);
+        t.setToPause();
+        }
+    }
+
+
+    public void jButton3_actionPerformed(ActionEvent e) {
+        int i=jList1.getSelectedIndex();
+       if (i!=-1){
+           all(i);
+     }
+    }
+
+
+
+       public void all(int i){
+         try{PrintStream old=System.out;
+           PipedOutputStream pOut = new PipedOutputStream();
+           PipedInputStream pIn = new PipedInputStream(pOut);
+           PrintStream print = new PrintStream(pOut);
+           System.setOut(print);
+           Potok1 t = (Potok1) model.getElementAt(i);
+           t.setToDestroy();
+           //t.myMonitoring();
+         t.myMon(t.getThreadGroup());
+           BufferedInputStream in = new BufferedInputStream(pIn);
+                System.setOut(old);
+                model1.delAllTgreads();
+                 String s="";
+                while (in.available()>0){
+                    String str=((char)in.read())+"";
+                    if( str.matches("]") ){
+                     model1.setElementThread(s+"]");
+                     s="";
+                    }
+                    else{  s=s+str;}
+                }
+                in.close();
+                pIn.close();
+    }
+        catch (Exception ert){
+        }
+
+    }
+
+
+
+    public void jButton4_actionPerformed(ActionEvent e) {
+        for (int i=0;i<model.getSize();i++){
+         //Potok1 t = (Potok1) model.getElementAt(i);
+           // t.setToDestroy();
+         all(i);
+     }
+          model.delAllTgreads();
+    }
+
+    public void jButton5_actionPerformed(ActionEvent e) {
+        for (int i=0;i<model.getSize()-1;i++){
+            Potok1 t = (Potok1) model.getElementAt(i);
+            t.setToPause();
+        }
+    }
+}
+
+
+class Frame4_jButton5_actionAdapter implements ActionListener {
+    private Frame4 adaptee;
+    Frame4_jButton5_actionAdapter(Frame4 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton5_actionPerformed(e);
+    }
+}
+
+
+class Frame4_jButton4_actionAdapter implements ActionListener {
+    private Frame4 adaptee;
+    Frame4_jButton4_actionAdapter(Frame4 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton4_actionPerformed(e);
+    }
+}
+
+
+class Frame4_jButton3_actionAdapter implements ActionListener {
+    private Frame4 adaptee;
+    Frame4_jButton3_actionAdapter(Frame4 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton3_actionPerformed(e);
+    }
+}
+
+
+class Frame4_jButton2_actionAdapter implements ActionListener {
+    private Frame4 adaptee;
+    Frame4_jButton2_actionAdapter(Frame4 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton2_actionPerformed(e);
+    }
+}
+
+
+class Frame4_jButton1_actionAdapter implements ActionListener {
+    private Frame4 adaptee;
+    Frame4_jButton1_actionAdapter(Frame4 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton1_actionPerformed(e);
+    }
+}

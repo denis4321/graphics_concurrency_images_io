@@ -1,0 +1,248 @@
+package networksex_.server;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.GridBagLayout;
+import java.awt.*;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JButton;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.util.Date;
+import networksex_.common.ConnectionListener;
+import networksex_.common.Connection;
+import java.util.HashSet;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Properties;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class servMainInt extends JFrame implements ConnectionListener {
+    public  File  DATA= new File("C:\\Documents and Settings\\Me\\–‡·Ó˜ËÈ ÒÚÓÎ\\data.txt");
+    private ArrayList<Person1> data=new ArrayList<Person1>();
+    JPanel contentPane;
+    GridBagLayout gridBagLayout1 = new GridBagLayout();
+    JScrollPane jScrollPane1 = new JScrollPane();
+    JTextArea OutArea = new JTextArea();
+    JButton StartBut = new JButton();
+    JButton StopBut = new JButton();
+    private DateFormat dateF = DateFormat.getTimeInstance(DateFormat.MEDIUM);
+    private HashSet<Connection> conns = new HashSet<Connection>();
+    private ServerConnection sc = null;
+   //  public static DataModelServer serverModel = new DataModelServer();
+
+
+    public servMainInt() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+            this.setState(false);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(gridBagLayout1);
+        setSize(new Dimension(400, 300));
+        setTitle("Server");
+        OutArea.setBackground(Color.black);
+        OutArea.setForeground(Color.green);
+        OutArea.setEditable(false);
+        StartBut.setFont(new java.awt.Font("Tahoma", Font.BOLD, 11));
+        StartBut.setForeground(Color.blue);
+        StartBut.setText("—“¿–“");
+        StartBut.addActionListener(new servMainInt_StartBut_actionAdapter(this));
+        StopBut.setFont(new java.awt.Font("Tahoma", Font.BOLD, 11));
+        StopBut.setForeground(Color.red);
+        StopBut.setText("—“Œœ");
+        StopBut.addActionListener(new servMainInt_StopBut_actionAdapter(this));
+        jScrollPane1.getViewport().add(OutArea);
+        contentPane.add(jScrollPane1,
+                        new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.BOTH,
+                                               new Insets(5, 5, 0, 5), 0, 0));
+        contentPane.add(StartBut, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(StopBut, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+                , GridBagConstraints.WEST, GridBagConstraints.NONE,
+                new Insets(5, 5, 5, 5), 0, 0));
+    }
+
+    public void println(String mess){
+        OutArea.append(dateF.format(new Date())+": "+mess+"\n");
+    }
+
+    public void setState(boolean isStarted){
+        if(isStarted) OutArea.setText("");
+        println("Server "+(isStarted ? "started" : "stopped"));
+
+        StartBut.setEnabled(!isStarted);
+        StopBut.setEnabled(isStarted);
+    }
+
+
+    public void start() {
+        sc = new ServerConnection(this);
+        setState(true);
+    }
+
+    public void stop() {
+        try {
+            sc.close();
+            for (Connection c : conns){
+                c.close();
+            }
+            conns.clear();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        setState(false);
+    }
+
+    public void connectionCreated(Connection c) {
+        println(c.getAddress()+": connection created");
+        conns.add(c);
+    }
+
+    public void connectionClosed(Connection c) {
+        println(c.getAddress()+": connection closed");
+        conns.remove(c);
+    }
+
+
+    public void save(Connection c)  {
+        Person1 p=c.getPerson();
+        String str=p.getName();
+        Person1 per =new Person1();
+        per.setName(str);
+        data.add(per);
+        //System.out.println(p+"     "+data.size()+p.getName());
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(DATA);
+            Properties pr = new Properties();
+            int i=0;
+            for (Person1 ppp:data){
+           //System.out.println(ppp.getName());
+                pr.setProperty("# "+i+"  "+c.getAddress(),"Consumered"+ppp.getName());
+                pr.store(out, "");
+                i++;
+            }
+    } catch (Exception ex1) {
+        ex1.printStackTrace();
+    }
+}
+
+
+public void setMyModel(Connection c, int index){
+
+}
+
+
+    public void messageReceived(Connection c, String mess) {
+        println(mess.length()+" bytes received from "+c.getAddress());
+        mess = c.getAddress()+": "+mess;
+        for (Connection currC : conns){
+          //  System.out.println(currC.getKindOfMesaage());
+            if (currC!=c){
+                try {
+                    //DataModelServer da=new DataModelServer();
+                    //Person1 po =new Person1();
+                    //po.setName("asdsad");
+                    //po.setAmount(45);
+                    //da.addData(po);
+                   // c.listener.setMyModel(c,da);
+                    Thread.sleep(400);
+                    currC.send(mess);
+                } catch (Exception ex) {
+                    connectionError(currC, ex);
+                    currC.close();
+                }
+            }
+            else {
+
+              //   System.out.println("Server is "+currC.getKindOfMesaage());
+    //          this.setTitle(currC.getKindOfMesaage()+"");
+              if (currC.getKindOfMesaage()){
+                    //System.out.println("Server is "+currC.getKindOfMesaage());
+                try {
+                    Thread.sleep(100);
+                     currC.send("¬¿ÿ «¿ ¿« œ–»Õﬂ“");
+
+                     //   serverModel.refreash();
+                     save(currC);
+                } catch (Exception ex1) {
+                    ex1.printStackTrace();
+                }
+                }
+            }
+        }
+    }
+
+    public void connectionError(Connection c, Exception ex) {
+        println(c.getAddress()+": ERROR: "+ex);
+        ex.printStackTrace();
+    }
+
+    public boolean connectionOder(Connection c) {
+        return true;
+    }
+
+
+    public DataModelServer getMyModel() {
+        return null;
+    }
+
+
+}
+
+
+class servMainInt_StopBut_actionAdapter implements ActionListener {
+    private servMainInt adaptee;
+    servMainInt_StopBut_actionAdapter(servMainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.stop();
+    }
+}
+
+
+class servMainInt_StartBut_actionAdapter implements ActionListener {
+    private servMainInt adaptee;
+    servMainInt_StartBut_actionAdapter(servMainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.start();
+    }
+}

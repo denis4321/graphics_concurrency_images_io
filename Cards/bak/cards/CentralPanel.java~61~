@@ -1,0 +1,48 @@
+package cards;
+
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import javax.swing.ImageIcon;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class CentralPanel extends JPanel{
+    public CentralPanel() {
+
+    }
+
+    public int d;
+
+
+
+
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+    // if (d!=0)
+   //     this.showCardUpStart(g);
+ //  if(d!=0){
+    //try {
+      //  wait();
+    //} catch (InterruptedException ex) {
+    //}
+    //}
+    g.drawImage(new ImageIcon("C:\\Documents and Settings\\Me\\Рабочий стол\\my\\"+Frame1.stepsCards.b+"q.PNG").getImage(),75,0,null);
+    g.drawImage(new ImageIcon("C:\\Documents and Settings\\Me\\Рабочий стол\\my\\"+Frame1.stepsCards.a+"q.PNG").getImage(),0,45,null);
+    g.drawImage(new ImageIcon("C:\\Documents and Settings\\Me\\Рабочий стол\\my\\"+Frame1.stepsCards.c+"q.PNG").getImage(),150,45,null);
+    g.drawImage(new ImageIcon("C:\\Documents and Settings\\Me\\Рабочий стол\\111.PNG").getImage(),75,100,null);
+   //}
+        //if(d!=0) this.showCard(g);
+    //   d++;
+    }
+}

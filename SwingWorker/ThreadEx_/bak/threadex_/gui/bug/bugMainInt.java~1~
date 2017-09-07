@@ -1,0 +1,31 @@
+package threadex_.gui.bug;
+
+import java.awt.*;
+
+import javax.swing.*;
+
+public class bugMainInt extends JFrame {
+    JPanel contentPane;
+    BorderLayout borderLayout1 = new BorderLayout();
+
+    public bugMainInt() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(borderLayout1);
+        setSize(new Dimension(400, 300));
+        setTitle("Вызывает баг из-за параллеьного изменения данных");
+    }
+}

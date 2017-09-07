@@ -1,0 +1,61 @@
+package ctulhufhtagn_conarh;
+
+import javax.swing.JLabel;
+import java.util.*;
+import javax.swing.ImageIcon;
+
+public abstract class Mob extends JLabel{
+    private int dx = 0;
+    private int dy = 0;
+    protected final Object mon = new Object();
+    private Timer t;
+
+    public Mob(Timer t, String spriteName, int width, int height) {
+        this.t = t;
+        this.setIcon(new ImageIcon(getClass().getResource("img/"+spriteName)));
+        this.setSize(width, height);
+        t.scheduleAtFixedRate(new TimerTask(){
+            public void run() {
+                synchronized (mon){
+                    if ((dx != 0) || (dy != 0)) {
+                        int nx = getX()+dx*moveSpeed();
+                        int ny = getY()+dy*moveSpeed();
+                        if (getParent()!=null){
+                            if (nx > 0 && ny > 0 &&
+                                nx + getWidth() < getParent().getWidth() &&
+                                ny + getHeight() < getParent().getHeight()) {
+                                //System.out.println("Mob moved: "+nx+" "+ny);
+                                setLocation(nx, ny);
+                            }
+                        } else {
+                            cancel();
+                        }
+                        dx = 0;
+                        dy = 0;
+                    }
+                }
+            }
+        }, 1, 50);
+    }
+
+    public void moveMob(int dx, int dy){
+        synchronized (mon){
+            this.dx = dx;
+            this.dy = dy;
+        }
+    }
+
+    public abstract int moveSpeed();
+
+    protected Timer getTimer(){
+        return t;
+    }
+
+    protected static double getDistance(Mob a, Mob b){
+        double dist = Math.sqrt(Math.pow(Math.abs(a.getX() -
+                                 b.getX()), 2) +
+                                       Math.pow(Math.abs(a.getY() - b.getY()), 2));
+        return dist;
+    }
+
+}

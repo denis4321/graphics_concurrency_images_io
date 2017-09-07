@@ -1,0 +1,185 @@
+package EnumsAndDrawing;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import java.awt.Rectangle;
+import com.borland.jbcl.layout.XYLayout;
+import com.borland.jbcl.layout.*;
+import java.awt.FlowLayout;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.JTextArea;
+import java.awt.Color;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Frame2 extends JFrame {
+    JPanel contentPane;
+    JSlider jSlider1 = new JSlider();
+    JSlider jSlider2 = new JSlider();
+    JSlider jSlider3 = new JSlider();
+    JTextField jTextField1 = new JTextField();
+    JTextField jTextField2 = new JTextField();
+    JTextField jTextField3 = new JTextField();
+    JLabel jLabel1 = new JLabel();
+    JLabel jLabel2 = new JLabel();
+    JLabel jLabel3 = new JLabel();
+    JTextArea jTextArea1 = new JTextArea();
+    public Frame2() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+            this.jSlider1.setValue(255);
+            this.jSlider2.setValue(255);
+            this.jSlider3.setValue(255);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(null);
+        setSize(new Dimension(400, 300));
+        setTitle("Frame Title");
+        jSlider1.setOrientation(JSlider.VERTICAL);
+        jSlider1.setMajorTickSpacing(55);
+        jSlider1.setMaximum(255);
+        jSlider1.setMinorTickSpacing(10);
+        jSlider1.setPaintLabels(true);
+        jSlider1.setPaintTicks(true);
+        jSlider1.setBounds(new Rectangle(4, 17, 82, 211));
+        jSlider1.addChangeListener(new Frame2_jSlider1_changeAdapter(this));
+        jSlider3.setOrientation(JSlider.VERTICAL);
+        jSlider3.setMajorTickSpacing(50);
+        jSlider3.setMaximum(255);
+        jSlider3.setMinorTickSpacing(10);
+        jSlider3.setPaintLabels(true);
+        jSlider3.setPaintTicks(true);
+        jSlider3.setBounds(new Rectangle(162, 21, 57, 200));
+        jSlider3.addChangeListener(new Frame2_jSlider3_changeAdapter(this));
+        jSlider2.setOrientation(JSlider.VERTICAL);
+        jSlider2.setMajorTickSpacing(50);
+        jSlider2.setMaximum(255);
+        jSlider2.setMinorTickSpacing(10);
+        jSlider2.setPaintLabels(true);
+        jSlider2.setPaintTicks(true);
+        jSlider2.setBounds(new Rectangle(104, 17, 47, 200));
+        jSlider2.addChangeListener(new Frame2_jSlider2_changeAdapter(this));
+        jTextField1.setText("jTextField1");
+        jTextField1.setBounds(new Rectangle(14, 252, 59, 20));
+        jTextField2.setText("jTextField2");
+        jTextField2.setBounds(new Rectangle(98, 252, 59, 20));
+        jTextField3.setText("jTextField3");
+        jTextField3.setBounds(new Rectangle(175, 253, 59, 20));
+        jLabel1.setText("blue");
+        jLabel1.setBounds(new Rectangle(188, 238, 34, 14));
+        jLabel2.setText("red");
+        jLabel2.setBounds(new Rectangle(37, 238, 34, 14));
+        jLabel3.setText("green");
+        jLabel3.setBounds(new Rectangle(109, 238, 34, 14));
+        jTextArea1.setBounds(new Rectangle(238, 14, 146, 205));
+        contentPane.add(jTextField1);
+        contentPane.add(jTextField2);
+        contentPane.add(jTextField3);
+        contentPane.add(jTextArea1);
+        contentPane.add(jSlider1, null);
+        contentPane.add(jSlider2);
+        contentPane.add(jSlider3);
+        contentPane.add(jLabel1);
+        contentPane.add(jLabel3);
+        contentPane.add(jLabel2);
+    }
+
+    public int getRedColor(){
+
+        return jSlider1.getValue();
+    }
+
+    public int getBlueColor(){
+          jTextField2.setText(jSlider2.getValue()+"");
+       return jSlider2.getValue();
+   }
+
+   public int getGreenColor(){
+       jTextField3.setText(jSlider3.getValue()+"");
+       return jSlider3.getValue();
+   }
+
+    public void jSlider1_stateChanged(ChangeEvent changeEvent) {
+        jTextField1.setText(jSlider1.getValue()+"");
+        Color myColor=new Color(getRedColor(),getBlueColor(),getGreenColor());
+        this.jTextArea1.setBackground(myColor);
+
+    }
+
+    public void jSlider2_stateChanged(ChangeEvent changeEvent) {
+        jTextField2.setText(jSlider2.getValue()+"");
+         Color myColor=new Color(getRedColor(),getBlueColor(),getGreenColor());
+         this.jTextArea1.setBackground(myColor);
+    }
+
+    public void jSlider3_stateChanged(ChangeEvent changeEvent) {
+        jTextField3.setText(jSlider3.getValue()+"");
+        Color myColor=new Color(getRedColor(),getBlueColor(),getGreenColor());
+        this.jTextArea1.setBackground(myColor);
+    }
+}
+
+
+class Frame2_jSlider1_changeAdapter implements ChangeListener {
+    private Frame2 adaptee;
+    Frame2_jSlider1_changeAdapter(Frame2 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void stateChanged(ChangeEvent changeEvent) {
+        adaptee.jSlider1_stateChanged(changeEvent);
+    }
+}
+
+
+class Frame2_jSlider2_changeAdapter implements ChangeListener {
+    private Frame2 adaptee;
+    Frame2_jSlider2_changeAdapter(Frame2 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void stateChanged(ChangeEvent changeEvent) {
+        adaptee.jSlider2_stateChanged(changeEvent);
+    }
+}
+
+
+class Frame2_jSlider3_changeAdapter implements ChangeListener {
+    private Frame2 adaptee;
+    Frame2_jSlider3_changeAdapter(Frame2 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void stateChanged(ChangeEvent changeEvent) {
+        adaptee.jSlider3_stateChanged(changeEvent);
+    }
+}

@@ -1,0 +1,43 @@
+package tr;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Untitled2 extends Thread{
+     static boolean b=true;
+    static boolean toDestroy=false;
+     Frame3 f;
+    public Untitled2(Frame3 f) {
+        this.f=f;
+    }
+    public void run(){
+       //while (toDestroy==false){
+        int i=0;
+        while (true) {
+        while (toDestroy==false){
+            if (b==true) {
+            try {
+                Thread.sleep(120);
+            } catch (InterruptedException ex) {
+            }
+            f.jLabel1.setText(i + "");i++;}
+                }
+       }
+}
+
+
+
+    public void ddd(){
+        b=!b;
+    }
+
+}

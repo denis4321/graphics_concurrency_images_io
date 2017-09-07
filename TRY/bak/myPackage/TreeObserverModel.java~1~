@@ -1,0 +1,43 @@
+package myPackage;
+
+import javax.swing.JLabel;
+import java.util.ArrayList;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class TreeObserver  {
+    ArrayList grandfatherList = new ArrayList();
+    ArrayList fatherList = new ArrayList();
+    ArrayList sunList = new ArrayList();
+    JLabel lab;
+    Thread t;
+
+    public TreeObserver(JLabel lab) {
+    this.lab=lab;
+    this.grandfatherList.add(Potok1.grandfather.getName());
+    this.fatherList.add(Potok1.father.getName());
+    this.sunList.add(Potok1.sun.getName());
+    }
+
+
+    public void rr(JLabel lab){
+    //lab.
+    }
+
+    public void run(){
+        while (true){
+            System.out.println(232323);
+            lab.setText(System.currentTimeMillis()+"-----------");
+        }
+    }
+}

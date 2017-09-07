@@ -1,0 +1,93 @@
+package ctulhufhtagn_conarh;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.*;
+
+public class MainInt extends JFrame {
+    JPanel contentPane;
+    BorderLayout borderLayout1 = new BorderLayout();
+    JPanel scene = new JPanel();
+    Timer t = new Timer(true);
+    Ctulhu ctulhu = new Ctulhu(t);
+    Cultist player = new Cultist(t);
+    public Random rnd = new Random();
+  
+    public MainInt() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+            KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor(new KeyEventPostProcessor(){
+                public boolean postProcessKeyEvent(KeyEvent e) {
+                    //System.out.println(e);
+                    //System.out.println(e.getKeyCode());
+                        switch (e.getKeyCode()) {
+                        case KeyEvent.VK_UP:
+                            player.moveMob(0, -5);
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            player.moveMob(0, 5);
+                            break;
+                        case KeyEvent.VK_LEFT:
+                            player.moveMob( -5, 0);
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            player.moveMob(5, 0);
+                            break;
+                        }
+                        return false;
+                }
+            });
+            scene.add(ctulhu);
+            scene.add(player);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(borderLayout1);
+        setSize(new Dimension(800, 600));
+        setTitle("Frame Title");
+        this.addWindowListener(new MainInt_this_windowAdapter(this));
+        scene.setLayout(null);
+        contentPane.add(scene, java.awt.BorderLayout.CENTER);
+    }
+
+    public void windowOpened() {
+        ctulhu.setLocation((scene.getWidth()-ctulhu.getWidth())/2, 5);
+        player.setLocation((scene.getWidth()-ctulhu.getWidth())/2, scene.getHeight()-player.getHeight()-5);
+        ctulhu.addVictim(player);
+        t.scheduleAtFixedRate(new TimerTask(){
+            public void run(){
+                Tyan zhertva = new Tyan(t);
+                Thread.sleep(rnd.nextInt(2000)+1);
+            }
+        }, 1, 2000);
+    }
+}
+
+
+class MainInt_this_windowAdapter extends WindowAdapter {
+    private MainInt adaptee;
+    MainInt_this_windowAdapter(MainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void windowOpened(WindowEvent e) {
+        adaptee.windowOpened();
+    }
+}

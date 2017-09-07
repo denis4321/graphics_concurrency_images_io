@@ -1,0 +1,39 @@
+package streamsadvancedexample_;
+
+import java.util.Arrays;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.DataInputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.*;
+
+public class SerialEx {
+    private static final File F = new File("ee.txt");
+
+    public SerialEx() {
+    }
+
+    public static void main(String[] args) {
+        try{
+            Person[] data = Person.generate(10);
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(F));
+            System.out.println(Arrays.toString(data));
+            out.writeInt(data.length);
+            for (Person p : data){
+                out.writeObject(p);
+            }
+            out.close();
+            System.out.println("-----------------------------------------------");
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(F));
+            int size = in.readInt();
+            for (int i=0; i<size; i++){
+                Person p = (Person) in.readObject();
+                System.out.print(p+", ");
+            }
+            System.out.println();
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+}

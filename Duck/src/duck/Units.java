@@ -1,0 +1,120 @@
+package duck;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Units {
+    Timer t;
+    Frame1 frame;
+    JButton but;
+    int deelay=10;
+    int dx = 1, dy = 1;
+    public Units(Timer t, Frame1 frame, JButton but) {
+        this.t = t;
+        this.but = but;
+        this.frame = frame;
+        but.setIcon(new ImageIcon("2.png"));
+        t.scheduleAtFixedRate(new TimerTask() {
+              //int i=10;
+            public void run() {
+                moveOfUnit(1);
+                if (isCanceled()){
+                     setMyIcon(".png");
+                     cancel();
+
+                 }
+
+                }
+        }, 5, 10);
+
+    }
+
+    public void setMyDeelay(int deelay){
+        this.deelay=deelay;
+    }
+
+    public void setButAction(){
+        but.setActionCommand("");
+    }
+
+
+
+
+    public void setMyIcon(String str){
+        but.setIcon(new ImageIcon(str));
+    }
+
+    public boolean isCanceled(){
+        if (but.getActionCommand().equals("1"))return true;
+        return false;
+    }
+
+
+    public void moveOfUnit(int runSpeed) {
+
+        if (frame.distance(but) <= 150) {
+            for (int i = 0; i < 15; i++) {
+
+                if (frame.distance(but) < 150 - i * 10) {
+                runSpeed *=2 ;break;
+                }
+            }
+
+            if (but.getBounds().getCenterX() <= frame.mouseX) {
+                dx = -runSpeed;
+                if (but.getBounds().getCenterY() <= frame.mouseY) {
+                    dy = -runSpeed;
+                } else {
+                    dy = runSpeed;
+                }
+            }
+
+            else {
+                dx = runSpeed;
+                if (but.getBounds().getCenterY() <= frame.mouseY) {
+                    dy = -runSpeed;
+                } else {
+                    dy = runSpeed;
+                }
+
+            }
+        }
+
+        else {
+            dx=(int)Math.signum(dx);
+            dy=(int)Math.signum(dy);
+        }
+
+        int newX = but.getLocation().x + dx;
+        int newY = but.getLocation().y + dy;
+        if (newX <= frame.getBounds().getMinX()) {
+            newX = (int) frame.getBounds().getMaxX() - but.getWidth();
+        }
+        if (newX >= frame.getBounds().getMaxX()) {
+            newX = (int) frame.getBounds().getMinX() + but.getWidth();
+        }
+        if (newY <= frame.getBounds().getMinY()) {
+            newY = (int) frame.getBounds().getMaxY() - but.getHeight();
+        }
+        if (newY >= frame.getBounds().getMaxY()) {
+            newY = (int) frame.getBounds().getMinY() + but.getHeight();
+        }
+        but.setLocation(newX, newY);
+    }
+
+
+}

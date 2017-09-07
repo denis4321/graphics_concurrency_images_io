@@ -1,0 +1,7 @@
+package enumexample_;
+
+public enum Month {
+    JAN,
+    FEB,
+    MAR;
+}

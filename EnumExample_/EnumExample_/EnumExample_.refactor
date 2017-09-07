@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refactor PUBLIC "-//Borland Software Corporation//Refactor 1.0//EN" "http://www.borland.com/devsupport/jbuilder/dtds/refactor_1_0.dtd">
+
+<refactor>
+  <rename-class id="7AP07P907A7G6SC86YSCXR2" creation-time="Sat Mar 27 11:02:13.515 EET 2010">
+    <old-class-name>enumexample_.EnumEx</old-class-name>
+    <new-class-name>enumexample_.EnumEx_Main</new-class-name>
+  </rename-class>
+  <rename-class id="6AP07P907A7G6SC86YSCXR2" creation-time="Sat Mar 27 11:02:20.218 EET 2010">
+    <old-class-name>enumexample_.EnumEx_Main</old-class-name>
+    <new-class-name>enumexample_.EnumExMain</new-class-name>
+  </rename-class>
+</refactor>
+

@@ -1,0 +1,19 @@
+package dd1.tt;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class TimerTaskEx {
+    public TimerTaskEx() {
+    }
+
+    public static void main(String[] args) {
+        Timer t = new Timer();
+        t.schedule(new TimerTask(){
+            public void run() {
+                //Таск - тормоз
+                Thread.sleep(200);
+            }
+        }, 1, 500);
+    }
+}

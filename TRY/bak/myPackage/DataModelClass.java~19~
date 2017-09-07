@@ -1,0 +1,51 @@
+package myPackage;
+
+import javax.swing.AbstractListModel;
+import java.util.ArrayList;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class DataModelClass extends AbstractListModel {
+    ArrayList<Thread> arList = new ArrayList<Thread>();
+
+    public DataModelClass() {
+    }
+
+    public void setElementThread(Thread t){
+        arList.add(t);
+        this.fireIntervalAdded(this,getSize()-1,getSize()-1);
+    }
+
+    public void delElementThread(int index){
+        arList.remove(index);
+        this.fireIntervalRemoved(this,index,index);
+    }
+
+    public void delAllTgreads(){
+        int old=getSize();
+        arList.clear();
+        this.fireIntervalRemoved(this,0,Math.max(old,arList.size()));
+    }
+
+    public int getSize() {
+        return arList.size();
+    }
+
+    public Thread getElementAt(int index) {
+        return arList.get(index);
+    }
+
+    public void dinamicPaint() {
+            this.fireContentsChanged(this,0,arList.size()-1);
+    }
+}

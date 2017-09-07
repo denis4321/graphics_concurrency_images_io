@@ -1,0 +1,178 @@
+package io_example_;
+
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import java.util.*;
+import javax.swing.event.*;
+import java.io.*;
+
+public class MyListModel implements ListModel, Serializable{
+    Vector<Element> data = new Vector<Element>();
+    //transient Vector<ListDataListener> listeners;//Переменная, не учавсвующая в сериализации
+    Vector<ListDataListener> listeners;
+    public static final File DATA = new File("mydata.txt");
+    //public String text = "sometext";
+    public static final long serialVersionUID = 1L;//Код, определяющий версию классаа
+    public static String text = "Sometext";
+
+    public MyListModel() {
+        listeners = new Vector<ListDataListener>();
+    }
+
+    public int getSize() {
+        return data.size();
+    }
+
+    public Element getElementAt(int index) {
+        return data.get(index);
+    }
+
+    public void addElement(Element e){
+        data.add(e);
+        this.fireIntervalAdded(this, getSize()-1, getSize()-1);
+    }
+
+    private void fireIntervalAdded(MyListModel model, int i, int i2) {
+        ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, i, i2);
+        for (ListDataListener l : listeners){
+            l.intervalAdded(e);
+        }
+    }
+
+    private void fireIntervalRemoved(MyListModel model, int i, int i2) {
+        ListDataEvent e = new ListDataEvent(this, ListDataEvent.INTERVAL_REMOVED, i, i2);
+        for (ListDataListener l : listeners){
+            l.intervalRemoved(e);
+        }
+    }
+
+    private void fireContentsChanged(MyListModel model, int i, int i2) {
+        ListDataEvent e = new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, i, i2);
+        for (ListDataListener l : listeners){
+            l.contentsChanged(e);
+        }
+    }
+
+
+    public void removeElement(int index){
+        data.remove(index);
+        this.fireIntervalRemoved(this, index, index);
+    }
+
+    public void save1() throws FileNotFoundException, IOException {
+        FileOutputStream fOut = new FileOutputStream(DATA);//Поток-приемник
+        DataOutputStream out = new DataOutputStream(fOut);//Сервисный поток
+        for (Element e : data){
+            out.writeLong(e.getTime());
+            out.writeUTF(e.getName());
+        }
+        out.close();
+    }
+
+    public void save2() throws IOException {//Сериализация
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DATA));
+        for (Element e : data){
+            out.writeObject(e);
+        }
+        out.close();
+    }
+
+    public void save3() throws IOException {
+        MyListModel.text = "Some text";
+        System.out.println(MyListModel.text);
+        final OutputStream fOut = new FileOutputStream(DATA);
+        /*System.out.println("opening stream");//Демонстрация загаловка ОбджектАутпутСтрима
+        ObjectOutputStream out = new ObjectOutputStream(new OutputStream(){
+            public void write(int b) throws IOException {
+                System.out.print(new String(new byte[]{(byte)b}));
+                fOut.write(b);
+            }
+
+            public void close() throws IOException {
+                fOut.close();
+            }
+        });
+        System.out.println("\ngoing to write object");
+        out.writeObject(this);
+        System.out.println("\ndone writing object");
+        out.close();
+        System.out.println("\nclosing stream");*/
+        ObjectOutputStream out = new ObjectOutputStream(fOut);
+        out.writeObject(this);
+        out.close();
+    }
+
+    public void load1() throws FileNotFoundException, IOException {
+        DataInputStream in = new DataInputStream(new FileInputStream(DATA));
+        int old = data.size();
+        data.clear();
+        while (in.available()>0){
+            long time = in.readLong();
+            String name = in.readUTF();
+            Element elem = new Element(name);
+            elem.setTime(time);
+            data.add(elem);
+        }
+        in.close();
+        this.fireContentsChanged(this, 0, Math.max(old, data.size()));//кидает событие изменения данных
+    }
+
+    public void load2() throws IOException, ClassNotFoundException {//Сериализация
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(DATA));
+        int old = data.size();
+        data.clear();
+        try{
+            while (true){
+                Element elem = (Element) in.readObject();
+                data.add(elem);
+            }
+        } catch (EOFException ex){
+            //Закончили читать....
+            ex.printStackTrace();
+        }
+        in.close();
+        this.fireContentsChanged(this, 0, Math.max(old, data.size()));
+    }
+
+    public static MyListModel load3() throws ClassNotFoundException, IOException {
+        MyListModel.text = "Other text";
+        System.out.println(MyListModel.text);
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream(DATA));
+        MyListModel reply = (MyListModel) in.readObject();
+        //System.out.println("Model text = "+reply.text);
+        in.close();
+        System.out.println(reply.text);
+        return reply;
+    }
+
+    public void addListDataListener(ListDataListener l) {
+        if (listeners==null){
+            listeners = new Vector<ListDataListener>();
+        }
+        listeners.add(l);
+    }
+
+    public void removeListDataListener(ListDataListener l) {
+        listeners.remove(l);
+    }
+
+    /**
+     * Ручное сохранение/загрузка данных при сериализации
+     */
+    /*private void writeObject(ObjectOutputStream out) throws IOException {
+        out.writeObject(data);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        data = (Vector<Element>) in.readObject();
+    }*/
+
+    //--------------------------------------------------------
+
+    /**
+     * Подмена одного объекта для сериализации другим
+     */
+    /*public Object writeReplace() throws ObjectStreamException{//Замена своего объекта другим, который и будет сериализовываться
+        return new MyListModelTransferable(data);
+    }*/
+}

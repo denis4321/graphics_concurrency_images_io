@@ -1,0 +1,242 @@
+package arcanoid;
+
+import java.util.Timer;
+import javax.swing.*;
+import java.util.TimerTask;
+import java.awt.geom.Rectangle2D;
+import java.util.Random;
+import java.awt.Image;
+import java.awt.Toolkit;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class HeroMove {
+    static int numberX=1;
+   int numberXXX=numberX;
+    Timer t;
+    JButton but;
+    JPanel p;
+   public double dx = 1, dy = 1, x;//=numberX*50;
+    double y = 99;
+    Random rnd = new Random();
+    double YSIZE;
+    double XSIZE;
+    Image [] deathImage = new Image[7];
+    Icon [] deathIcon =new Icon[7];
+    int deathNumber=-1;
+    boolean deathNumberPause=false;
+    boolean otrecoshetil;
+    Image [] birdImage = new Image[12];
+    Icon [] birdIcon =new Icon[12];
+    int birdNumber=-1;
+    boolean birdNumberPause=false;
+
+
+
+
+
+    public HeroMove(Timer t, JButton but, JPanel p) {
+        this.t = t;
+        this.but = but;
+        this.p = p;
+        numberX++;
+        for (int i=0;i<deathImage.length;i++){
+            deathImage[i] = Toolkit.getDefaultToolkit().createImage("death"+i + ".jpg");
+            deathIcon[i] = new ImageIcon(deathImage[i].getScaledInstance(but.getWidth(),
+                    but.getHeight(),
+                    Image.SCALE_AREA_AVERAGING));
+        }
+        for (int i=0;i<birdImage.length;i++){
+           birdImage[i] = Toolkit.getDefaultToolkit().createImage("bird"+i + ".jpg");
+           birdIcon[i] = new ImageIcon(birdImage[i].getScaledInstance(but.getWidth(),
+                   but.getHeight(),
+                   Image.SCALE_AREA_AVERAGING));
+       }
+    }
+
+
+
+
+    public void runTask() {
+        final JButton b = but;
+        int kindOfHero=rnd.nextInt(3);
+        switch(kindOfHero){
+        case (0):
+            nextBirdPicture(but);
+            break;
+        case (1):
+            nextDeathPicture(but);
+            break;
+        default: nextBirdPicture(but);
+        }
+      //
+        //nextDeathPicture(but);
+
+        //b.setLocation(50);
+        t.scheduleAtFixedRate(new TimerTask() {
+
+
+            public void run() {
+   //             System.out.println(y);
+           //     try {
+             //       Thread.sleep(1);
+              //  } catch (InterruptedException ex) {
+                //}
+                moveThisHero(b);
+                b.setLocation((int) x, (int) y);
+                if (b.getActionCommand().equals(1 + ""))  cancel();
+            }
+        }, 1, 3);
+    }
+
+
+    public synchronized void moveThisHero(JButton but) {
+        Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+        Rectangle2D bounds = Frame1.drawPanel.getBounds();
+        int i = rnd.nextInt(2);
+    //    nextDeathPicture(but);
+
+
+        switch (i) {
+        case 0:
+            x += dx;
+            break;
+      //  case 1:
+        //    y += dy;
+          //  break;
+        //case 2:
+      // x += dx;
+      // break;
+   //case 3:
+     //  y += dy;
+       //break;
+
+
+        default:
+
+            x += dx;
+            y+=dy;
+        }
+        YSIZE = but.getHeight();
+        XSIZE = but.getWidth();
+     //   System.out.println(x + "\t" + y);
+        if (but.getBounds().getMaxX() >= bounds.getMaxX()) {
+            x = bounds.getMaxX() - XSIZE - 1;
+            dx = -dx;
+            otrecoshetil=true;
+        //    but.setActionCommand("ugol");
+
+        }
+        if (x <= bounds.getMinX()) {
+            x = bounds.getMinX();
+            dx = -dx;
+            otrecoshetil=false;
+      //      but.setActionCommand("ugol");
+        }
+
+        if (but.getBounds().getMaxY() >= bounds.getMaxY()) {
+            y = bounds.getMaxY() - YSIZE - 1;
+            dy = -dy;
+            //otrecoshetil=false;
+        }
+
+        if (y <= bounds.getMaxY() / 2) {
+            y = bounds.getMaxY() / 2;
+            dy = -dy;
+        //    otrecoshetil=false;
+        }
+        //else  otrecoshetil=false;
+
+        /*for (int j=0;j<Frame1.drawPanel.arcanoidBlocks.size()-1;j++){
+            for (int jj=j+1;jj<Frame1.drawPanel.arcanoidBlocks.size();jj++){
+
+
+                JButton b1 = Frame1.drawPanel.arcanoidBlocks.get(j);
+                JButton b2 = Frame1.drawPanel.arcanoidBlocks.get(jj);
+                if (b1.getBounds().getMinX() >= b2.getBounds().getMinX() &&
+                    b1.getBounds().getMinX() <= b2.getBounds().getMaxX() &&
+                    b1.getBounds().getMinY() >= b2.getBounds().getMinY() &&
+                    b1.getBounds().getMinY()<=b2.getBounds().getMaxY()) {
+                //    dx=dx;
+                   // dy=-dy;
+
+                 //   b1.setVisible(false);
+               b1.setIcon(null);
+                    // x=9;
+
+                  //b2.setLocation((int)(b2.getBounds().getMinX()-b2.getWidth()),b2.getY());
+                    //break;
+
+            }
+           // else b1.setVisible(true);
+           */
+        }
+  //  }
+//}
+
+
+
+
+
+
+    public void nextDeathPicture(JButton but){
+        final JButton button=but;
+        new Timer().scheduleAtFixedRate(new TimerTask(){
+            public void run() {
+                deathNumber++;
+                if (deathNumber==deathIcon.length)deathNumber=0;
+                button.setIcon(deathIcon[deathNumber]);
+                if (button.getActionCommand().equals(1 + ""))  cancel();
+}
+        },1,80);
+    }
+
+
+
+
+
+
+
+    public void nextBirdPicture(JButton but){
+        final JButton button=but;
+        new Timer().scheduleAtFixedRate(new TimerTask(){
+            public void run() {
+       birdNumber++;
+       if (otrecoshetil){
+       if (birdNumber==0)birdNumber=2;
+           if (birdNumber>5)birdNumber=0;
+       }
+       if (!otrecoshetil) {
+           if (birdNumber>11)birdNumber=6;
+       }
+       button.setIcon(birdIcon[birdNumber]);
+       if (button.getActionCommand().equals(1 + ""))  cancel();
+   }
+        },1,80);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

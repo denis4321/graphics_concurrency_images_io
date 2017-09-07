@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refactor PUBLIC "-//Borland Software Corporation//Refactor 1.0//EN" "http://www.borland.com/devsupport/jbuilder/dtds/refactor_1_0.dtd">
+
+<refactor>
+  <rename-class id="7AP0ZKXK72AG3J5F5YSCXR2" creation-time="Sat Jun 05 11:55:15.171 EEST 2010">
+    <old-class-name>networksex_.client.MainInt</old-class-name>
+    <new-class-name>networksex_.client.cliMainInt</new-class-name>
+  </rename-class>
+</refactor>
+

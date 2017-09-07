@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refactor PUBLIC "-//Borland Software Corporation//Refactor 1.0//EN" "http://www.borland.com/devsupport/jbuilder/dtds/refactor_1_0.dtd">
+
+<refactor>
+  <rename-package id="7AP0N5T8C37GZ95EATLFK8Z" creation-time="Mon Mar 22 15:54:26.828 EET 2010">
+    <old-package-name>tr</old-package-name>
+    <new-package-name>tttt</new-package-name>
+  </rename-package>
+  <rename-package id="6AP0N5T8C37GZ95EATLFK8Z" creation-time="Mon Mar 22 15:55:28.187 EET 2010">
+    <old-package-name>tttt</old-package-name>
+    <new-package-name>tr</new-package-name>
+  </rename-package>
+</refactor>
+

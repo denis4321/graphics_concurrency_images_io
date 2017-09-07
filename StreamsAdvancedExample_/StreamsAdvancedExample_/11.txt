@@ -1,0 +1,22 @@
+#
+#Wed Jan 06 17:21:10 YEKT 2010
+p.7.age=17
+p.5.name=Chel \#6
+p.4.age=14
+p.6.name=Chel \#7
+p.9.age=19
+p.1.age=11
+p.7.name=Chel \#8
+p.6.age=16
+p.0.name=Chel \#1
+p.8.name=Chel \#9
+p.3.age=13
+p.1.name=Chel \#2
+p.9.name=Chel \#10
+p.8.age=18
+p.0.age=10
+p.2.name=Chel \#3
+p.5.age=15
+p.3.name=Chel \#4
+p.2.age=12
+p.4.name=Chel \#5

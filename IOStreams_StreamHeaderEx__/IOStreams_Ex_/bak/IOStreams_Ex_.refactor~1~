@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refactor PUBLIC "-//Borland Software Corporation//Refactor 1.0//EN" "http://www.borland.com/devsupport/jbuilder/dtds/refactor_1_0.dtd">
+
+<refactor>
+  <rename-package id="7AP0LMFR7W5G7UKNCYSCXR2" creation-time="Sat Feb 20 11:34:52.093 EET 2010">
+    <old-package-name>mvc_example_</old-package-name>
+    <new-package-name>io_example_</new-package-name>
+  </rename-package>
+</refactor>
+

@@ -1,0 +1,50 @@
+package fileex_;
+
+import java.io.*;
+import java.util.*;
+
+public class FileMain {
+    public FileMain() {
+    }
+
+    public static void main(String[] args) {
+        //Системные переменные
+        /*for (Enumeration<?> en = System.getProperties().propertyNames(); en.hasMoreElements();){
+            String name = (String)en.nextElement();
+            System.out.println(name+"="+System.getProperty(name));
+        }*/
+        File f = new File("subdir/../FileEx_.jpx");
+        System.out.println(f.getName());
+        System.out.println(f.getAbsolutePath());
+        try {
+            System.out.println(f.getCanonicalPath());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        //Проверка на сущестование
+        System.out.println("file exists: "+f.exists());
+        System.out.println("file exists AND is directory: "+f.isDirectory());
+        System.out.println("file exists AND is file: "+f.isFile());
+        //Создание директорий и файлов
+        File dir = new File("mydir/subdir");
+        dir.mkdir();//Создает одну директорию
+        dir.mkdirs();//Создает цепочку директорий
+        File fl = new File(dir, "somefile.txt");
+        try {
+            /*if (false)*/ fl.createNewFile();
+        } catch (IOException ex1) {
+            ex1.printStackTrace();
+        }
+        //Удаление
+        boolean ok = dir.delete();
+        System.out.println(dir+" удалена="+ok);
+        File[] roots = File.listRoots();//Возвращает все системные корни
+        try {
+            System.out.println("Временная папка: "+new File(System.getProperty("java.io.tmpdir")).getCanonicalPath());
+            File tmp = File.createTempFile("FileEx", ".tmp");
+            tmp.deleteOnExit();
+        } catch (IOException ex2) {
+            ex2.printStackTrace();
+        }
+    }
+}

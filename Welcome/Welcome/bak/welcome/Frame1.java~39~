@@ -1,0 +1,124 @@
+package welcome;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.Rectangle;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.HierarchyListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2009</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Frame1
+
+    extends JFrame {
+  char ch='q';
+  JPanel contentPane;
+  JTextField jTextField1 = new JTextField();
+  JLabel jLabel1 = new JLabel();
+  public Frame1() {
+    try {
+      setDefaultCloseOperation(EXIT_ON_CLOSE);
+      jbInit();
+    }
+    catch (Exception exception) {
+      exception.printStackTrace();
+    }
+  }
+
+public void paintComponent(Graphics g){
+    ImageIcon im = new ImageIcon("D:\\Documents and Settings\\Admin\\Рабочий стол\\1.png");
+  Image image = im.getImage();
+  super.paintComponents(g);
+  int dx = image.getWidth(this);
+  int dy = image.getHeight(this);
+  //for (int i = 0; i < this.getWidth(); i = i + dx) {
+//g.drawString(ch+"",70,79);
+  //}
+}
+  /**
+   * Component initialization.
+   *
+   * @throws java.lang.Exception
+   */
+  private void jbInit() throws Exception {
+    contentPane = (JPanel) getContentPane();
+    contentPane.setLayout(null);
+    contentPane.setFocusable(true);
+    setSize(new Dimension(400, 300));
+    setTitle("Frame Title");
+    contentPane.addKeyListener(new KeyAdapter() {
+      public void keyPressed(KeyEvent e) {
+        contentPane_keyPressed(e);
+      }
+    });
+    jTextField1.setText("jTextField1");
+    jTextField1.setBounds(new Rectangle(74, 95, 59, 20));
+    jLabel1.setText("jLabel1");
+    jLabel1.setBounds(new Rectangle(125, 188, 34, 14));
+    contentPane.add(jTextField1);
+    contentPane.add(jLabel1);
+  }
+
+  public void jCheckBox1_itemStateChanged(ItemEvent e) {
+
+}
+
+  public void jButton1_actionPerformed(ActionEvent e) {
+  }
+
+  public void jSlider1_hierarchyChanged(HierarchyEvent e) {
+  }
+
+  public void jSlider2_caretPositionChanged(InputMethodEvent event) {
+    System.out.println("asd");
+//jTextField1.setBackground(new Color(0,0,jSlider2.getValue() ));
+  }
+
+  public void jSlider2_inputMethodTextChanged(InputMethodEvent event) {
+
+  System.out.println("1111");
+  }
+
+  public void jSlider2_hierarchyChanged(HierarchyEvent e) {
+
+  }
+
+  public void contentPane_keyPressed(KeyEvent e) {
+//ch=e.getKeyChar();
+//jLabel1.setText(ch+"");
+}
+
+  public void jPanel1_keyPressed(KeyEvent e) {
+ch=e.getKeyChar();
+    //System.out.println(e.getKeyCode()); qwewqe
+  }
+
+  public void jPanel1_keyReleased(KeyEvent e) {
+    System.out.println(e.getKeyChar());
+  }
+
+  public void jPanel1_keyTyped(KeyEvent e) {
+    ch=e.getKeyChar();
+  }
+}

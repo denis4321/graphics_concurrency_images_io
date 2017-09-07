@@ -1,0 +1,5 @@
+java.lang.ThreadGroup[name=GRANDFATHER,maxpri=10]
+    Thread[thread #0,4,GRANDFATHER]
+    java.lang.ThreadGroup[name=FATHER,maxpri=10]
+        java.lang.ThreadGroup[name=SUN,maxpri=10]
+            Thread[thread #1,4,SUN]

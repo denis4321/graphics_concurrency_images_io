@@ -1,0 +1,45 @@
+package myPackage;
+
+import javax.swing.AbstractListModel;
+import java.util.ArrayList;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class DataModelClass extends AbstractListModel {
+    ArrayList<Thread> arList = new ArrayList<Thread>();
+
+    public DataModelClass() {
+    }
+
+    public void setElementThread(Thread t){
+        arList.add(t);
+        this.fireIntervalAdded(this,0,getSize()-1);
+    }
+
+    public void delElementThread(int index){
+        arList.remove(index);
+        this.fireIntervalRemoved(this,index,index);
+    }
+
+    public int getSize() {
+        return arList.size();
+    }
+
+    public Thread getElementAt(int index) {
+        return arList.get(index);
+    }
+
+    public void dinamicPaint() {
+            this.fireContentsChanged(this,0,arList.size()-1);
+    }
+}

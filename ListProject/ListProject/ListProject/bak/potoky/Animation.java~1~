@@ -1,0 +1,31 @@
+package potoky;
+
+import javax.swing.ImageIcon;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2009</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Animation extends Thread{
+   Engine en;
+    public Animation(Engine en) {
+    this.en=en;
+    }
+
+
+    public void run(int number){
+        en.returnLabel(en.potokNumber).setIcon(new ImageIcon(1+""+(1+number%6)+".png"));
+       try {
+           Thread.sleep(120);
+       } catch (InterruptedException ex) {
+    }
+    }
+}

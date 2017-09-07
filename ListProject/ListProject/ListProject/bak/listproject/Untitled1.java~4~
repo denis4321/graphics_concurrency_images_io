@@ -1,0 +1,48 @@
+package listproject;
+import javax.swing.JLabel;
+import javax.swing.ListCellRenderer;
+import java.awt.Component;
+import javax.swing.JList;
+import java.util.ArrayList;
+import javax.swing.ListModel;
+import javax.swing.Icon;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2009</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Untitled1 extends JLabel implements ListCellRenderer {
+ArrayList folderIcons;
+public Untitled1(ArrayList folderIcons) {
+this.folderIcons=folderIcons;
+}
+
+public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+if (index!=-1){
+ListModel model = list.getModel();
+String text=model.getElementAt(index).toString();
+setText(text);
+this.setOpaque(true);
+}
+if (folderIcons!=null){
+setIcon((Icon)folderIcons.get(index));
+}
+if (isSelected){
+//this.setBackground(list.getSelectionBackground());
+//this.setForeground(list.getSelectionForeground());
+}
+else {
+//this.setBackground(list.getBackground());
+//this.setForeground(list.getForeground());
+}
+return this;
+}
+}

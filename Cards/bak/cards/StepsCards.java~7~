@@ -1,0 +1,75 @@
+package cards;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class StepsCards {
+    public int a=-1,b=-1,c=-1,d=1;
+
+    public StepsCards() {
+    }
+
+    public void myMethod1() {
+       a= Frame1.drawpanel2.getKinutaCarta();
+       // Frame1.drawpanel2.repaint();
+       b= Frame1.drawpanel1.getKinutaCarta();
+        //Frame1.drawpanel1.repaint();
+       c= Frame1.drawpanel3.getKinutaCarta();
+        //Frame1.drawpanel3.repaint();
+        //d=0;
+    }
+
+    public void myMethod2() {
+        b=Frame1.drawpanel1.getKinutaCarta();
+        //Frame1.drawpanel1.repaint();
+        c=Frame1.drawpanel3.getKinutaCarta();
+        //Frame1.drawpanel3.repaint();
+       // a=0;
+        //d=0;
+    }
+
+    public void myMethod2_1(){
+       a=Frame1.drawpanel2.getKinutaCarta();
+       Frame1.cp.repaint();
+       //b=0;c=0;d=0;
+    }
+
+    public void myMethod3() {
+       //Frame1.drawpanel1.getKinutaCarta();
+       //Frame1.drawpanel1.repaint();
+       c=Frame1.drawpanel3.getKinutaCarta();
+       Frame1.cp.repaint();
+   }
+
+   public void myMethod3_1(){
+      a=Frame1.drawpanel2.getKinutaCarta();
+      //Frame1.drawpanel2.repaint();
+      b=Frame1.drawpanel1.getKinutaCarta();
+      Frame1.cp.repaint();
+   }
+
+   public void mymethod4(){
+       a=Frame1.drawpanel2.getKinutaCarta();
+       //Frame1.drawpanel2.repaint();
+       b=Frame1.drawpanel1.getKinutaCarta();
+       //Frame1.drawpanel1.repaint();
+       c=Frame1.drawpanel3.getKinutaCarta();
+       Frame1.cp.repaint();
+   }
+
+    public void ResetCards(){
+        a=-1;b=-1;c=-1;d=-1;
+        Frame1.cp.repaint();
+    }
+
+
+}

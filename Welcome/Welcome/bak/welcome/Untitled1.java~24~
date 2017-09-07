@@ -1,0 +1,70 @@
+package welcome;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Untitled1 extends Thread {
+  Object ob2 = new Object();
+  Object ob1 = new Object();
+  int i;
+
+  public Untitled1(int i) {
+    this.i=i;
+  }
+
+  public void mot1(){
+    synchronized(ob2){
+      System.out.println("I am in mot1");
+      mot2();
+      try {
+        sleep(0);
+      }
+      catch (InterruptedException ex) {
+      ex.printStackTrace();
+      }
+    }
+  }
+
+  public void mot2(){
+    synchronized(ob1){
+        try {
+          sleep(10);
+        }
+        catch (InterruptedException ex) {
+        }
+      System.out.println("\tI AM IN MOT2");
+      mot1();
+    }
+    }
+
+
+  public void run(){
+    switch (i){
+      case 1:
+        mot1();
+        break;
+        case 2:
+          mot2();
+          break;
+    }
+  }
+
+
+
+  public static void main(String[] args) {
+    Untitled1 untitled1 = new Untitled1(1);
+     Untitled1 untitled2 = new Untitled1(2);
+     untitled2.start();
+         untitled1.start();
+
+  }
+}

@@ -1,0 +1,6 @@
+package enumexample_;
+
+public class EnumEx_Main {
+    public EnumEx_Main() {
+    }
+}

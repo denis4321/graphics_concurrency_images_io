@@ -1,0 +1,33 @@
+package welcome;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.io.File;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2009</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class NumberFormatClass {
+
+  public static void main(String[] args) throws Exception {
+    /* FileFinder f = new FileFinder();
+         List d = f.findDirectory("D:\\", ".txt");
+         System.out.println("Всего найдено "+d.size());
+         System.out.println(d.toString());*/
+    File homedir = new File("D:\\q");
+
+  //  homedir.list(new File("Xc"));
+    System.out.println(homedir.listFiles()+" "+homedir.getPath());
+//File f = new File(homedir.list(),"configfile");
+//f.toString();
+}
+}

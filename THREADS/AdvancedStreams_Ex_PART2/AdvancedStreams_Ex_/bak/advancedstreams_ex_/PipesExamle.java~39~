@@ -1,0 +1,70 @@
+package advancedstreams_ex_;
+
+import java.io.*;
+
+public class PipesExamle {
+    public PipesExamle() {
+    }
+
+    public static void main(String[] args) {
+        try{
+            //Замена стандартного ПринтСтрима на свой собственный
+            /*PrintStream p = new PrintStream(new FileOutputStream("out.txt"), false);
+            System.setOut(p);*/
+            //Использование потоков - труб
+            final int SIZE = 1000;//Максимальный размер данных для записи, т.к. буфер трубы = 1024, а размер одной записи - 24
+            PipedOutputStream pipeOut = new PipedOutputStream();
+            PipedInputStream pipeIn = new PipedInputStream(pipeOut);
+            PrintStream old = System.out;
+            System.setOut(new PrintStream(pipeOut));
+            //НЕ ТРОГАТЬ!!!!!
+            int count = 0;
+            int i=0;
+            while (count<SIZE) {
+                String txt = "step #" + (i + 1)+/*System.getProperty("line.separator")*/"\n";//При записи в файл перевод строки будет отображатья неправильно
+                System.out.print(txt);
+                count+=txt.length();
+                i++;
+                //old.println(count);
+            }
+            //--------------
+            System.setOut(old);
+            System.out.println("--------------------------------------");
+            System.out.println("PipedInputStream supports mark/reset: "+pipeIn.markSupported());
+            BufferedInputStream in = new BufferedInputStream(pipeIn, SIZE+24);//Установка бкферизирующего потока
+            System.out.println("BufferedInputStream supports mark/reset: "+in.markSupported());
+            //Запись в консоль
+            in.mark(SIZE+24);
+            while (in.available()>0){
+                System.out.write(in.read());
+            }
+            //Запись в файл
+            in.reset();
+            //Замена символа перевода строки
+            PushbackInputStream push = new PushbackInputStream(in, SIZE*2);
+            System.out.println("PushbackInputStream supports mark/reset: "+push.markSupported());
+            int[] buf = new int[SIZE*2];
+            int index = 0;
+            while (push.available()>0){
+                char c = (char)push.read();
+                if (c=='\n'){
+                    buf[index++] = '\r';//Добавляем нужный для винды символ
+                } else {
+                    buf[index++] = c;
+                }
+                for (int j=index-1; j>=0; j--){
+                    push.unread(buf[j]);//Записываем данные назад в поток
+                }
+            }
+            FileOutputStream fOut = new FileOutputStream("out.txt");
+            while (in.available()>0){
+                fOut.write(push.read());
+            }
+            in.close();
+            pipeOut.close();
+        } catch (Exception ex){
+            ex.printStackTrace(System.out);
+        }
+    }
+}
+

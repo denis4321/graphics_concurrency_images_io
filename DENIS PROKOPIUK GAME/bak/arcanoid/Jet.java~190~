@@ -1,0 +1,163 @@
+package arcanoid;
+
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.awt.geom.Ellipse2D;
+import javax.swing.JButton;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.Icon;
+import javax.imageio.ImageIO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import javax.swing.JLabel;
+import java.util.Timer;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Jet {
+    private static final int XSIZE = 10, YSIZE = 10;
+    private int dx = 1, dy = 1;
+    public double x, y;
+    private double bombPositionX;
+    private double bombPositionY;
+    private double bombSpeed = 50;
+    Image[] im = new Image[9];
+    Icon[] ic = new Icon[9];
+    //Image im1;
+    //Icon ic1;
+    private int iconNumber;
+    private int j;
+    public boolean kinulBomb;
+    public boolean[] a = new boolean[30];
+    Timer t = new Timer(true);
+
+    public Jet() {
+
+       //   im1 = Toolkit.getDefaultToolkit().createImage("gaba"  + ".gif");
+         //     ic1 = new ImageIcon(im1.getScaledInstance(30, 50,
+           //           Image.SCALE_AREA_AVERAGING));
+
+        for (int i = 0; i < 9; i++) {
+            im[i] = Toolkit.getDefaultToolkit().createImage("gaba" + i + ".jpg");
+            ic[i] = new ImageIcon(im[i].getScaledInstance(90, 100,
+                    Image.SCALE_AREA_AVERAGING));
+        }
+    }
+
+    public double getBombPositionX() {
+        return bombPositionX;
+    }
+
+    public double getBombPositionY() {
+        return bombPositionY;
+    }
+
+
+    public double getBombSpeed() {
+        return bombSpeed;
+    }
+
+    public void setBombPositionY(double x1) {
+        bombPositionY = x1;
+    }
+
+
+    public void setBombPositionX(double x1) {
+        bombPositionX = x1;
+    }
+
+    public void setBombSpeed(double y1) {
+        bombSpeed = y1;
+    }
+
+    public void setBombUscor(double y1) {
+        bombSpeed += y1;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setX(double x1) {
+        x = x1;
+    }
+
+    public void setY(double y1) {
+        y = y1;
+    }
+
+    public Ellipse2D getEllipseOfBomb(double x1, double y1) {
+        return new Ellipse2D.Double(x1, y1, XSIZE, YSIZE);
+    }
+
+    public void moveOfJet(Rectangle2D bounds, JButton butWidth) {
+        x += 1;
+        double rt = butWidth.getWidth() / 2;
+        if (x + rt >= bounds.getMaxX()) {
+            x = bounds.getMinX();
+        }
+    }
+
+    public void moveMYbutton(JButton but) {
+        Rectangle2D bounds = Frame1.drawPanel.getBounds();
+        j++;
+        moveOfJet(bounds, but);
+        if (j == 15) {
+            nextIcon(but);
+            j = 0;
+        }
+        if (kinulBomb) {
+            j = 0;
+            but.setIcon(ic[0]);
+            this.kinulBomb = false;
+        }
+        but.setLocation((int) getX(), (int) getY());
+    }
+
+    public void nextIcon(JButton but) {
+        if (iconNumber > 8) {
+            iconNumber = 1;
+        }
+        but.setIcon(ic[iconNumber]);
+        this.iconNumber++;
+    }
+
+
+    public void moveOfBomb(Rectangle2D bounds, ArrayList<JButton> notBounds, JLabel label) {
+        bombPositionX +=0 ;
+        bombPositionY += 0.5;
+        label.setLocation((int) (bombPositionX), (int) (bombPositionY));
+        for (int i = 0; i < notBounds.size(); i++) {
+            if (bombPositionX + 15 <= notBounds.get(i).getBounds().getMaxX() &&
+                bombPositionX + 15 >= notBounds.get(i).getBounds().getMinX() &&
+                bombPositionY + 15 <= notBounds.get(i).getBounds().getMaxY() &&
+                bombPositionY + 15 >= notBounds.get(i).getBounds().getMinY()
+                && !a[i]) {
+                a[i] = true;
+                Frame1.drawPanel.bbb = false;
+                FairPainter bmb = new FairPainter(t, notBounds.get(i));
+                break;
+            }
+        }
+        if (bombPositionY >= bounds.getMaxY() ||
+            bombPositionX >= bounds.getMaxX()) {
+            Frame1.drawPanel.bbb = false;
+        }
+    }
+}

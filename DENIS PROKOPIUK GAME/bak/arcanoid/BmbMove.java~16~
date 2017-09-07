@@ -1,0 +1,58 @@
+package arcanoid;
+
+import java.awt.Graphics2D;
+import java.awt.Color;
+import javax.swing.JPanel;
+import java.awt.geom.Ellipse2D;
+import javax.swing.JButton;
+import javax.swing.Icon;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class BmbMove extends Thread {
+    JButton but;
+    Image[] im = new Image[9];
+    Icon[] ic = new Icon[9];
+    public boolean b=true;
+
+    public BmbMove(JButton but) {
+        this.but=but;
+        for (int i=0;i<10;i++){
+        im[i] = Toolkit.getDefaultToolkit().createImage(i + ".jpg");
+           ic[i] = new ImageIcon(im[i].getScaledInstance(but.getWidth(),but.getHeight(),
+                   Image.SCALE_AREA_AVERAGING));
+        }
+    }
+
+    public void run(){
+        int i=0;
+        while (b){
+
+            if (i==9)i=1;
+            but.setIcon(ic[i]);
+            i++;
+            try {
+               Thread.sleep(100);
+           } catch (InterruptedException ex) {
+           }
+
+        }
+
+    }
+
+
+
+}

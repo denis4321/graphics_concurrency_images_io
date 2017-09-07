@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--JBuilder XML Project-->
+<project>
+<property category="generalFormatting" name="baseCodeStyle" value="java/Java Standard.codestyle"/>
+<property category="generalFormatting2" name="blockIndent" value="4"/>
+<property category="generalFormatting2" name="continuationIndent" value="8"/>
+<property category="generalFormatting2" name="overrideBasicFormatting" value="1"/>
+<property category="javaFormatting" name="alignMultilineAssign" value="1"/>
+<property category="javaFormatting" name="arrayInitDataOnNewLine" value="0"/>
+<property category="javaFormatting" name="blankLinesAfterClass" value="2"/>
+<property category="javaFormatting" name="catchOnNewLine" value="0"/>
+<property category="javaFormatting" name="elseOnNewLine" value="0"/>
+<property category="javaFormatting" name="extendsOnNewLine" value="0"/>
+<property category="javaFormatting" name="finallyOnNewLine" value="0"/>
+<property category="javaFormatting" name="implementsOnNewLine" value="0"/>
+<property category="javaFormatting" name="indentCase" value="0"/>
+<property category="javaFormatting" name="packagePrefixGroups" value="java;BLANK_LINE;javax;BLANK_LINE;(*)"/>
+<property category="javaFormatting" name="packageThreshold" value="2"/>
+<property category="javaFormatting" name="preservedBlankLinesInDecl" value="2"/>
+<property category="javaFormatting" name="spaceBeforeLparen" value="0"/>
+<property category="javaFormatting" name="whileOnNewLine" value="0"/>
+<property category="javadoc" name="custom.tags.1" value="todo;a;To Do:"/>
+<property category="runtime" name="DefaultConfiguration" value="-1"/>
+<property category="runtime.0" name="BuildTargetOnRun" value="com.borland.jbuilder.build.ProjectBuilder$ProjectBuildAction;make"/>
+<property category="runtime.0" name="ConfigurationName" value="Application123"/>
+<property category="runtime.0" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner"/>
+<property category="runtime.0" name="application.class" value="arcanoid.Application123"/>
+<property category="serverservices" name="disabled.services" value="jdatastore"/>
+<property category="serverservices" name="single.server.name" value=""/>
+<property category="sys" name="AuthorLabel" value="@author"/>
+<property category="sys" name="BackupPath" value="bak"/>
+<property category="sys" name="CheckStable" value="1"/>
+<property category="sys" name="Company" value=""/>
+<property category="sys" name="CompanyLabel" value="Company:"/>
+<property category="sys" name="Copyright" value="Copyright (c) 2010"/>
+<property category="sys" name="CopyrightLabel" value="Copyright:"/>
+<property category="sys" name="DefaultPath" value="src"/>
+<property category="sys" name="Description" value=""/>
+<property category="sys" name="DescriptionLabel" value="Description:"/>
+<property category="sys" name="DocPath" value="doc"/>
+<property category="sys" name="ExcludeClassEnabled" value="0"/>
+<property category="sys" name="IncludeTestPath" value="1"/>
+<property category="sys" name="InstanceVisibility" value="2"/>
+<property category="sys" name="JDK" value="java version 1.5.0_03-b07"/>
+<property category="sys" name="JvmVersion" value="1.5"/>
+<property category="sys" name="LastTag" value="0"/>
+<property category="sys" name="Libraries" value="JBCL"/>
+<property category="sys" name="MakeStable" value="0"/>
+<property category="sys" name="OutPath" value="classes"/>
+<property category="sys" name="SourcePath" value="src;test"/>
+<property category="sys" name="SourceVersion" value="1.5"/>
+<property category="sys" name="TestPath" value="test"/>
+<property category="sys" name="Title" value=""/>
+<property category="sys" name="TitleLabel" value="Title:"/>
+<property category="sys" name="Version" value="1.0"/>
+<property category="sys" name="VersionLabel" value="@version"/>
+<property category="sys" name="WorkingDirectory" value="."/>
+<property category="sys" name="uidesign.size.arcanoid.DrawPanel" value="400,340"/>
+<node name="Applet JAR" type="Archive">
+<property category="archiving" name="archiverClass" value="com.borland.jbuilder.wizard.archive.AppletArchiver"/>
+<property category="archiving" name="contentRules.1" value="I:**/*.*"/>
+<property category="archiving" name="defaultLibraryState" value="3"/>
+<property category="archiving" name="obfuscator" value="RetroGuard for J2ME"/>
+<property category="archiving" name="targetCompressed" value="1"/>
+<property category="archiving" name="targetPath" value="NotArcanoid.jar"/>
+<property category="archiving" name="usingRules" value="1"/>
+</node>
+<file path="0.jpg"/>
+<file path="1.jpg"/>
+<file path="2.jpg"/>
+<file path="3.jpg"/>
+<file path="4.jpg"/>
+<file path="5.jpg"/>
+<file path="6.jpg"/>
+<file path="7.jpg"/>
+<file path="8.jpg"/>
+<file path="bird0.jpg"/>
+<file path="bird1.jpg"/>
+<file path="bird10.jpg"/>
+<file path="bird11.jpg"/>
+<file path="bird2.jpg"/>
+<file path="bird3.jpg"/>
+<file path="bird4.jpg"/>
+<file path="bird5.jpg"/>
+<file path="bird6.jpg"/>
+<file path="bird7.jpg"/>
+<file path="bird8.jpg"/>
+<file path="bird9.jpg"/>
+<file path="death0.jpg"/>
+<file path="death1.jpg"/>
+<file path="death2.jpg"/>
+<file path="death3.jpg"/>
+<file path="death4.jpg"/>
+<file path="death5.jpg"/>
+<file path="death6.jpg"/>
+<file path="gaba0.jpg"/>
+<file path="gaba1.jpg"/>
+<file path="gaba2.jpg"/>
+<file path="gaba3.jpg"/>
+<file path="gaba4.jpg"/>
+<file path="gaba5.jpg"/>
+<file path="gaba6.jpg"/>
+<file path="gaba7.jpg"/>
+<file path="gaba8.jpg"/>
+<file path="night1.jpg"/>
+<file path="night123.jpg"/>
+<file path="classes/arcanoid/Application123.class"/>
+<file path="classes/arcanoid/DrawPanel.class"/>
+<file path="classes/arcanoid/FairPainter.class"/>
+<file path="classes/arcanoid/Frame1.class"/>
+<file path="classes/arcanoid/HeroMove.class"/>
+<file path="classes/arcanoid/Jet.class"/>
+</project>

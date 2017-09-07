@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refactor PUBLIC "-//Borland Software Corporation//Refactor 1.0//EN" "http://www.borland.com/devsupport/jbuilder/dtds/refactor_1_0.dtd">
+
+<refactor>
+  <rename-class id="7AP0YK6K607GPVNLYSCXR2" creation-time="Sat Mar 20 10:52:01.218 EET 2010">
+    <old-class-name>threadex_.gui.start</old-class-name>
+    <new-class-name>threadex_.gui.starter</new-class-name>
+  </rename-class>
+</refactor>
+

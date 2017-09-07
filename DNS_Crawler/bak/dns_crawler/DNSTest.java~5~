@@ -1,0 +1,22 @@
+package dns_crawler;
+
+import org.xbill.DNS.Lookup;
+import org.xbill.DNS.Name;
+import org.xbill.DNS.Record;
+
+public class DNSTest {
+    public DNSTest() {
+    }
+
+    public static void main(String[] args) {
+        try{
+            Lookup l = new Lookup("www.yandex.ru");
+            Record[] recs = l.getAnswers();
+            for (Record r : recs) {
+                System.out.println(r);
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+}

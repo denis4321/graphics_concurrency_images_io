@@ -1,0 +1,27 @@
+package listproject;
+
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import javax.swing.ImageIcon;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2009</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class BackgroundImage extends JPanel {
+    ImageIcon image = new ImageIcon("light-house.png");
+    public BackgroundImage() {
+    }
+    public void paintComponent(Graphics g){
+g.drawImage(image.getImage(),0,0,null);
+}
+
+}

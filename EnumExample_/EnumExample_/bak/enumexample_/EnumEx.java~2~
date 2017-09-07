@@ -1,0 +1,24 @@
+package enumexample_;
+
+import java.util.*;
+
+public class EnumEx {
+    public EnumEx() {
+    }
+
+    public static void main(String[] args) {
+        for (Month m : Month.values()){
+            switch (m){
+            case JAN:
+                System.out.println("Январь");
+                break;
+            case FEB:
+                System.out.println("Февраль");
+                break;
+            case MAR:
+                System.out.println("Март");
+                break;
+            }
+        }
+    }
+}

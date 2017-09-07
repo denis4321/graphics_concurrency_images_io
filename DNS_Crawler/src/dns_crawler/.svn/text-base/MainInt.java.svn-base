@@ -1,0 +1,241 @@
+package dns_crawler;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.GridBagLayout;
+import java.awt.*;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.JCheckBox;
+import javax.swing.JTextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.Proxy;
+import java.net.InetSocketAddress;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import javax.swing.JList;
+import javax.swing.DefaultListCellRenderer;
+import java.io.*;
+import java.io.*;
+import java.util.Arrays;
+import javax.swing.JProgressBar;
+import java.util.Scanner;
+
+public class MainInt extends JFrame {
+    DataModelClass model =new DataModelClass();
+    JPanel contentPane;
+    GridBagLayout gridBagLayout1 = new GridBagLayout();
+    JTextField AddressField = new JTextField();
+    JButton GetPageBut = new JButton();
+    JScrollPane jScrollPane1 = new JScrollPane();
+    JTextField ProxyIPField = new JTextField();
+    JTextField ProxyPortField = new JTextField();
+    JCheckBox ProxyCheck = new JCheckBox();
+    JList LinkArea = new JList();
+    JProgressBar jProgressBar1 = new JProgressBar();
+
+    public MainInt() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+            ProxyIPField.setText("195.5.20.206");
+            ProxyPortField.setText("3128");
+            ProxyCheck.setSelected(true);
+            AddressField.setText("http://www.spr.ua/donetsk/");
+            LinkArea.setModel(model);
+            this.LinkArea.setCellRenderer(new DefaultListCellRenderer() {
+             public Component getListCellRendererComponent(JList list,
+                     Object value, int index, boolean isSelected,
+                     boolean cellHasFocus) {
+                 //String p = new String();
+                 //p = (Person1) value;
+                 JLabel lab = new JLabel();
+                 lab = (JLabel)super.getListCellRendererComponent(list,
+                         value, index, isSelected,
+                         cellHasFocus);
+                 return lab;
+             }
+         });
+
+          //   String s="asdasdasd    <a href = \"www.ru\"    sdfdsf sdvsdvs \"asd\"  \n href   =   \"ehewhwrtgrt36463\" ";
+            // getHrefs(s);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(gridBagLayout1);
+        setSize(new Dimension(450, 350));
+        setTitle("Классический сайтокраулер");
+        GetPageBut.setFont(new java.awt.Font("Tahoma", Font.BOLD, 12));
+        GetPageBut.setForeground(Color.blue);
+        GetPageBut.setText("?");
+        GetPageBut.addActionListener(new MainInt_GetPageBut_actionAdapter(this));
+        ProxyIPField.setMinimumSize(new Dimension(100, 19));
+        ProxyIPField.setPreferredSize(new Dimension(100, 19));
+        ProxyPortField.setMinimumSize(new Dimension(50, 19));
+        ProxyPortField.setPreferredSize(new Dimension(50, 19));
+        ProxyCheck.setFont(new java.awt.Font("Tahoma", Font.BOLD, 11));
+        ProxyCheck.setText("Прокси");
+        LinkArea.setFont(new java.awt.Font("SansSerif", Font.PLAIN, 11));
+        AddressField.setText("http://www.yandex.ua/");
+        jScrollPane1.setPreferredSize(new Dimension(400, 250));
+        jProgressBar1.setMinimumSize(new Dimension(150, 18));
+        jProgressBar1.setPreferredSize(new Dimension(150, 18));
+        jScrollPane1.getViewport().add(LinkArea);
+        contentPane.add(GetPageBut, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(AddressField,
+                        new GridBagConstraints(0, 0, 4, 1, 1.0, 0.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.HORIZONTAL,
+                                               new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(ProxyPortField,
+                        new GridBagConstraints(4, 1, 1, 1, 0.0, 0.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.NONE,
+                                               new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(ProxyCheck, new GridBagConstraints(2, 1, 1, 1, 1.0, 0.0
+                , GridBagConstraints.EAST, GridBagConstraints.NONE,
+                new Insets(5, 0, 5, 5), 0, 0));
+        contentPane.add(ProxyIPField,
+                        new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+                                               , GridBagConstraints.EAST,
+                                               GridBagConstraints.NONE,
+                                               new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(jScrollPane1,
+                        new GridBagConstraints(0, 2, 5, 1, 1.0, 1.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.BOTH,
+                                               new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(jProgressBar1,
+                        new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.HORIZONTAL,
+                                               new Insets(0, 7, 0, 5), 0, 0));
+    }
+
+    public void getPage() {
+        try{
+            model.clear();
+            URL url = new URL(AddressField.getText());
+            HttpURLConnection conn = null;
+            if (ProxyCheck.isSelected()){
+                Proxy prox = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ProxyIPField.getText(), Integer.parseInt(ProxyPortField.getText())));
+                conn = (HttpURLConnection) url.openConnection(prox);
+            } else {
+                conn = (HttpURLConnection) url.openConnection();
+            }
+            conn.connect();
+            InputStream in = conn.getInputStream();
+            StringBuilder content = getContent(in);
+
+           // System.out.println(content);
+           getHrefs(content);
+
+        // java.util.List<String> urls = getHrefs(content);
+            //this.LinkArea.
+            conn.disconnect();
+
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public StringBuilder getContent(InputStream in) throws
+            UnsupportedEncodingException, IOException {
+        StringBuilder sb = new StringBuilder();
+        InputStreamReader reader=new InputStreamReader(in, "cp1251");
+        int val = -1;
+        while ((val=reader.read())>=0){
+           sb.append((char)val);
+        }
+        //System.out.println("----------------------------------------------------------------------------------------------");
+        //System.out.println(sb);
+        //System.out.println("----------------------------------------------------------------------------------------------");
+        return sb;
+    }
+
+
+    public void getHrefs(StringBuilder str){
+        boolean done = false;
+        System.out.println(str.length());
+        /*while(!done){
+            done = true;
+            //String[] hrefs=new String[str.length()];
+            done = checkMark(str, new String[]{"<a href=\"", "<a href=\'"}, new String[]{"\"", "'"});
+        }*/
+        Scanner sc = new Scanner(str.toString());
+        System.out.println(str.toString());
+        /*while (sc.hasNext("<br>.|\\s*?")){
+            addLink(sc.next("<br>.|\\s*?"));
+        }*/
+        String[] strs = str.toString().split("<a.+?href=['\"]");
+        for (String s : strs){
+            s = s.split("['\"]")[0];
+            addLink(s);
+        }
+        System.out.println(model.getSize()+" indexes found");
+    }
+
+    private boolean checkMark(StringBuilder str, String[] mark, String[] end) {
+        boolean done = true;
+        int firstInd = -1;
+        int i = 0;
+        for (; i<mark.length&&firstInd<0; i++){
+            firstInd = str.indexOf(mark[i]);
+        }
+        int secondInd = -1;
+        if (firstInd >= 0) {
+            i--;
+            firstInd+=mark[i].length();
+            secondInd = str.indexOf(end[i], firstInd + 1);
+        }
+        if (secondInd > firstInd) {
+            String ref = str.substring(firstInd, secondInd);
+            addLink(ref);
+            str.delete(0, secondInd+1);
+            done = false;
+        }
+        return done;
+    }
+
+    public void addLink(String link){
+        model.addData(link);
+    }
+
+
+    //private void getUrls(String content){
+      //  LinkArea.setText(content);
+    //}
+}
+
+
+class MainInt_GetPageBut_actionAdapter implements ActionListener {
+    private MainInt adaptee;
+    MainInt_GetPageBut_actionAdapter(MainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.getPage();
+    }
+}

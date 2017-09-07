@@ -1,0 +1,69 @@
+package imageloading_;
+
+import javax.swing.SwingUtilities;
+import java.awt.image.ImageObserver;
+import java.awt.Image;
+import java.awt.Component;
+
+//наблюдает за загрузкой изображения
+public class CustomObserver implements ImageObserver{
+    private Component c;
+
+    public CustomObserver(Component c) {
+        this.c = c;
+    }
+
+
+    public boolean imageUpdate(Image img, int infoflags, int x,
+                               int y, int width, int height) {
+        boolean result = true;
+        boolean repaint = false;
+        if ((infoflags & ImageObserver.WIDTH) > 0) {
+            System.out.print("WIDTH ");
+            //repaint = true;
+        }
+        if ((infoflags & ImageObserver.HEIGHT) > 0) {
+            System.out.print("HEIGHT ");
+            //repaint = true;
+        }
+        if ((infoflags & ImageObserver.PROPERTIES) > 0) {
+            System.out.print("PROPERTIES ");
+            //repaint = true;
+        }
+        if ((infoflags & ImageObserver.SOMEBITS) > 0) {
+            System.out.print("SOMEBITS ");
+            //repaint = true;
+            if (y>=c.getHeight()/2){
+                result = false;
+                repaint = true;
+            }
+        }
+        if ((infoflags & ImageObserver.FRAMEBITS) > 0) {
+            System.out.print("FRAMEBITS ");
+        }
+        if ((infoflags & ImageObserver.ALLBITS) > 0) {
+            System.out.print("ALLBITS ");
+            result = false;
+            repaint = true;
+        }
+        System.out.println("x=" + x + " y=" + y + " w=" + width + " h=" +
+                           height);
+        if (repaint) {
+            c.repaint();
+            /*SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    try {
+                        Thread.sleep(1);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    c.repaint();
+                }
+            });*/
+
+        }
+        return result;
+    }
+
+
+}

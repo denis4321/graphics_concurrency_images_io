@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><!--JBuilder QuickDoc-->
+<HEAD>
+<TITLE>Class com.sun.jmx.snmp.tasks.Task</TITLE><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+</HEAD>
+<BODY>
+
+<H2>
+<FONT SIZE="-1">com.sun.jmx.snmp.tasks</FONT>
+<BR>Interface Task</H2>
+<DL>
+<DT>public interface <B>Task</B><DT>extends java.lang.Runnable
+</DL>
+<DL><DD>This interface is implemented by objects that can be executed by a <A HREF="com.sun.jmx.snmp.tasks.TaskServer">com.sun.jmx.snmp.tasks.TaskServer</A>. <p>A <code>Task</code> object implements two methods: <ul><li><code>public void run(): </code> from <A HREF="java.lang.Runnable">java.lang.Runnable</A></li> <ul>This method is called by the <A HREF="com.sun.jmx.snmp.tasks.TaskServer">com.sun.jmx.snmp.tasks.TaskServer</A> when the task is executed.</ul> <li><code>public void cancel(): </code></li> <ul>This method is called by the <A HREF="com.sun.jmx.snmp.tasks.TaskServer">com.sun.jmx.snmp.tasks.TaskServer</A> if the <code>TaskServer</code> is stopped before the <code>Task</code> is executed.</ul> </ul> An implementation of <A HREF="com.sun.jmx.snmp.tasks.TaskServer">com.sun.jmx.snmp.tasks.TaskServer</A> shall call either <code>run()</code> or <code>cancel()</code>. Whether the task is executed synchronously in the current thread (when calling <code>TaskServer.submitTask()</code> or in a new thread dedicated to the task, or in a daemon thread, depends on the implementation of the <code>TaskServer</code> through which the task is executed. <p>The implementation of <code>Task</code> must not make any assumption on the implementation of the <code>TaskServer</code> through which it will be executed. <p><b>This API is a Sun Microsystems internal API and is subject to change without notice.</b></p><DL><DD></DD></DL></DD>
+</DL>
+<DL><DT><B>Since:</B><DD>1.5</DD>
+<DT><B>See Also:</B><DD>com.sun.jmx.snmp.tasks.TaskServer</DD>
+</DL>
+<TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF"><TD COLSPAN=1><FONT SIZE="+2">
+<B>Method Detail</B>
+</FONT></TD></TR></TABLE>
+
+<A NAME="cancel()"></A>
+
+<H3>cancel</H3>
+<PRE>
+public void <B>cancel</B>()</PRE>
+<DL><DD>Cancel the submitted task. The implementation of this method is Task-implementation dependent. It could involve some message logging, or even call the run() method. Note that only one of run() or cancel() will be called - and exactly one.<DL><DD></DD></DL></DD>
+</DL>
+<DL></DL>
+<HR>
+
+</BODY>
+</HTML>

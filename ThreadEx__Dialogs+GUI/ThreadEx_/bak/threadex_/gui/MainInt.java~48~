@@ -1,0 +1,147 @@
+package threadex_.gui;
+
+import java.awt.*;
+
+import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.lang.reflect.*;
+
+public class MainInt extends JFrame {
+    JPanel contentPane;
+    BorderLayout borderLayout1 = new BorderLayout();
+    JButton StartDialogBut = new JButton();
+    JButton StartMonitorBut = new JButton();
+
+    public MainInt() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+            /*Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener(){
+                public void eventDispatched(AWTEvent event) {
+                    System.out.println(event);
+                }
+           }, Long.MAX_VALUE);*/
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(borderLayout1);
+        setSize(new Dimension(400, 300));
+        setTitle("Threads and GUI");
+        StartDialogBut.setText("Прогресс диалог");
+        StartDialogBut.addActionListener(new MainInt_StartBut_actionAdapter(this));
+        StartMonitorBut.setText("Прогресс монитор");
+        StartMonitorBut.addActionListener(new
+                                          MainInt_StartMonitorBut_actionAdapter(this));
+        contentPane.add(StartMonitorBut, java.awt.BorderLayout.SOUTH);
+        contentPane.add(StartDialogBut, java.awt.BorderLayout.NORTH);
+    }
+
+    public void startProgressDialog(ActionEvent e) {
+        final ProgressDialog diag = new ProgressDialog(this);
+        Thread t = new Thread(){
+            public void run(){
+                for (int i=0; i<=100; i++){
+                    try {
+                        final int val = i;
+                        //SwingUtilities.invokeAndWait(new Runnable() {//Вызывает модификацию интерфейса из ЕДТ и ждет выполнения события
+                        SwingUtilities.invokeLater(new Runnable() {//Вызывает модификацию интерфейса из ЕДТ
+                            public void run() {
+                                diag.setProgress(val);
+                            }
+                        });
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    System.out.println(i);
+                    try {
+                        //Thread.sleep(50);
+                        for (long l = 0; l<10000000; l++){}
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        };
+        t.setPriority(Thread.NORM_PRIORITY);//Приоритет НУЖНО ставить ОБЯЗАТЕЛЬНО
+        t.start();
+        diag.setVisible(true);
+    }
+
+    public void startMonitorDialog(ActionEvent e) {
+/*        final ProgressMonitor mon = new ProgressMonitor(this, "Подождите", "", 0, 100);
+       // mon.setMillisToDecideToPopup(100);//Задержка перед всплытием
+       // mon.setMillisToPopup(2000);//Если время выполнения процесса (предполагаемое) больше чем указанное, то диалог всплывет
+        Thread t = new Thread(){
+            public void run(){
+                for (int i=0; i<=100&&!mon.isCanceled(); i++){
+                    mon.setProgress(i);
+                    mon.setNote(i+"%");
+                  //  if (i%10==0) mon.setNote(i+"%");
+                    try {
+                        //Thread.sleep(50);
+                        for (long l = 0; l<10000000; l++){}
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                System.out.println("Process finisfed");
+            }
+        };
+        t.setPriority(Thread.NORM_PRIORITY);//Приоритет НУЖНО ставить ОБЯЗАТЕЛЬНО
+        t.start();
+*/
+
+final ProgressMonitor monitor = new ProgressMonitor(this,"rrrrrrrrrrrrrrrrrrr","",0,100);
+  Thread t =new Thread(){
+      public void run() {
+             for (int i=0;i<1000&&!monitor.isCanceled();i++){
+             monitor.setProgress(i);
+             System.out.println(i);
+             monitor.setNote(i+"%");
+
+         }
+
+      }
+  };
+ // t.setPriority(Thread.NORM_PRIORITY);
+  t.start();
+
+
+    }
+}
+
+
+class MainInt_StartBut_actionAdapter implements ActionListener {
+    private MainInt adaptee;
+    MainInt_StartBut_actionAdapter(MainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.startProgressDialog(e);
+    }
+}
+
+
+class MainInt_StartMonitorBut_actionAdapter implements ActionListener {
+    private MainInt adaptee;
+    MainInt_StartMonitorBut_actionAdapter(MainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.startMonitorDialog(e);
+    }
+}

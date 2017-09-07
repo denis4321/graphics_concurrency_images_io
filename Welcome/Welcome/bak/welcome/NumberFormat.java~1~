@@ -1,0 +1,23 @@
+package welcome;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2009</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class NumberFormat {
+  public NumberFormat() {
+  }
+
+  public static void main(String[] args) {
+    NumberFormat numberformat = new NumberFormat();
+  System.out.toString(numberformat.);
+  }
+}

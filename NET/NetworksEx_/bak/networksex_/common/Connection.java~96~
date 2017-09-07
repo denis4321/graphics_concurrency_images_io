@@ -1,0 +1,141 @@
+package networksex_.common;
+
+import java.net.Socket;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.DataInputStream;
+import networksex_.server.Person1;
+import networksex_.server.ServerConnection;
+import networksex_.server.DataModelServer;
+
+/**
+ * Собственно сетевое соединение
+ */
+public class Connection implements Runnable {
+    private Socket sock;
+    private DataOutputStream out;
+    private boolean doRun = true;
+    public ConnectionListener listener;
+    private boolean kindOfMessage = true;
+    private Person1 person;
+    public boolean connectionPause=false;
+
+    public Connection(Socket s, ConnectionListener l) throws IOException {
+        sock = s;
+        this.listener = l;
+        out = new DataOutputStream(sock.getOutputStream());
+        Thread t = new Thread(this);
+        t.setPriority(Thread.NORM_PRIORITY);
+        t.setDaemon(true);
+        t.start();
+        person = new Person1();
+    }
+
+    public void setPerson(Person1 p) {
+        person = p;
+    }
+
+    public Person1 getPerson() {
+        return person;
+    }
+
+    public void setKindOFMessage(boolean b) {
+        this.kindOfMessage = b;
+    }
+
+    public boolean getKindOfMesaage() {
+        return this.kindOfMessage;
+    }
+
+
+    public void send2() {
+
+    }
+
+
+    public void send(String str) throws IOException {
+        if (listener.connectionOder(this)) {
+            out.writeInt( -1);
+            out.writeInt(str.length());
+            out.write(str.getBytes());
+           // if (str.toLowerCase().equals(">>>ваш заказ принят"))this.connectionPause = false;
+        }
+            else {
+            out.writeInt( -2);
+            out.writeInt(str.length());
+            out.write(str.getBytes());
+        }
+    }
+
+    public void run() {
+        listener.connectionCreated(this);
+        try {
+            DataInputStream in = new DataInputStream(sock.getInputStream());
+            byte[] buf = null;
+            int count = 0;
+            while (doRun) {
+                //Thread.sleep(1000);
+
+
+                if (in.available() > 0) {
+                    if (buf == null) {
+                        int myMessage = in.readInt();
+                        if (myMessage == -1) {
+                            this.kindOfMessage = false;
+                            person = new Person1();
+                        } else {
+                            this.kindOfMessage = true;
+                        }
+                        int size = in.readInt();
+                        buf = new byte[size];
+                        count = 0;
+                    } else {
+                        buf[count++] = (byte) in.read();
+                        if (count >= buf.length) {
+                            //Сообщение пришло
+                            String str = new String(buf);
+                            //if (str.equals("ВАШ ЗАКАЗ ПРИНЯТ")) listener.connectionPause(this);
+
+
+                           // System.out.println(str);
+                            String s = str.substring(str.lastIndexOf(" ") + 1);
+                            person.setName(s);
+
+                            if (!kindOfMessage) {
+                                listener.setMyModel(this,
+                                        ServerConnection.serverModel.
+                                        getIndexOfName(s));
+                                listener.connectionPause(this);
+                            }
+                            listener.messageReceived(this, new String(buf));
+                            buf = null;
+                        }
+                    }
+                } else {
+                    Thread.sleep(500);
+                }
+               // if(connectionPause){
+                 //   Thread.sleep(900);
+                //}
+
+            }
+        } catch (Exception ex) {
+            listener.connectionError(this, ex);
+        }
+        try {
+            sock.close();
+        } catch (IOException ex) {
+            listener.connectionError(this, ex);
+        }
+        listener.connectionClosed(this);
+    }
+
+    public void close() {
+        doRun = false;
+    }
+
+    public String getAddress() {
+        System.out.println(sock.getInetAddress().getHostName().toString());
+        return sock.getInetAddress().getHostName().toString();
+    }
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--JBuilder XML Project-->
+<project>
+<property category="javaFormatting" name="EventStyle" value="0"/>
+<property category="javaFormatting" name="packageThreshold" value="0"/>
+<property category="runtime.0" name="ConfigurationName" value="Welcome"/>
+<property category="runtime.0" name="RunnableType" value="com.borland.jbuilder.runtime.ApplicationRunner"/>
+<property category="runtime.0" name="application.class" value="com.borland.samples.welcome.WelcomeApp"/>
+<property category="serverservices" name="disabled.services" value="jdatastore"/>
+<property category="serverservices" name="single.server.name" value=""/>
+<property category="sys" name="JvmVersion" value="1.2"/>
+<property category="sys" name="palette.bean.chooser.beans" value="welcome.Untitled1;"/>
+<file path="Welcome.html"/>
+</project>

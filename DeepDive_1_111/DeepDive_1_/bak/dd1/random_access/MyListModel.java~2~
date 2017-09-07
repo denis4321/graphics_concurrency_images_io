@@ -1,0 +1,56 @@
+package dd1.random_access;
+
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import java.util.*;
+import javax.swing.event.*;
+
+public class MyListModel /*implements ListModel*/extends AbstractListModel{
+    Vector data = new Vector();
+    //Vector listeners = new Vector();
+
+    public MyListModel() {
+        for (int i=0; i<10; i++){
+            data.add(new Element());
+        }
+    }
+
+    public int getSize() {
+        return data.size();
+    }
+
+    public Object getElementAt(int index) {
+        return (Element)data.get(index);
+    }
+
+    /*public void addListDataListener(ListDataListener l) {//Добавляет слушатель событий датаМодели
+        listeners.add(l);
+        System.out.println(l+" added");
+    }*/
+
+    /*public void removeListDataListener(ListDataListener l) {
+        listeners.remove(l);
+    }*/
+
+    public void addElement(Element e){
+        data.add(e);
+        /*ListDataEvent evt = new ListDataEvent(this, ListDataEvent.INTERVAL_ADDED, data.size()-1, data.size()-1);
+        for (Object o : listeners){
+            ListDataListener l = (ListDataListener)o;
+            l.intervalAdded(evt);
+        }*/
+        this.fireIntervalAdded(this, getSize()-1, getSize()-1);
+    }
+
+    public void removeElement(int index){
+        data.remove(index);
+        this.fireIntervalRemoved(this, index, index);
+    }
+
+    public void removeElements(int[] indexes){
+        for (int i=indexes.length-1; i>=0; i--){
+            data.remove(indexes[i]);
+        }
+        this.fireIntervalRemoved(this, indexes[0], indexes[indexes.length-1]);
+    }
+}

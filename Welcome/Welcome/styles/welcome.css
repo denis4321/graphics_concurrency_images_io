@@ -1,0 +1,100 @@
+BODY {
+	background-color : #ccccff;
+	color : Black;
+	font-weight : bold;
+	font-family : sans-serif;
+}
+
+BODY.FirstPage {
+	background-color : White;
+	color : Black;
+	background-image : url(../images/navcolor.jpg);
+	background-repeat : repeat-y;
+	font-size : larger;
+}
+
+BODY.banner {
+	background-color : Black;
+	color : #CCCCff;
+	font-weight : normal;
+}
+
+H2 {
+	color : DarkSlateGray;
+}
+
+TABLE {
+	font-size : 100%;
+	padding-left : 6;
+}
+
+P.TD {
+	color : Black;
+	font-weight : bold;
+}
+
+UL {
+	list-style-type : square;
+}
+
+A {
+	text-decoration : none;
+}
+
+A:FirstPage {
+	color : Black;
+}
+
+A:LINK {
+	color : Black;
+}
+
+A:LINK.FirstPage {
+	color : Black;
+}
+
+A:VISITED {
+	color : #7A7883;
+}
+
+A:VISITED.FirstPage {
+	color : White;
+}
+
+A:ACTIVE {
+	color : #626173;
+}
+
+A:HOVER {
+	color : White;
+}
+
+IMG.FirstPage {
+	border : thin solid White;
+}
+
+.normal {
+	font-weight : normal;
+}
+
+.bigger {
+	font-size : 110%;
+}
+
+.sanserif {
+	font-family : sans-serif;
+}
+
+.bsku {
+	color : #BB0011;
+}
+
+SPAN.bsku {
+	color : #BB0011;
+	font-weight : normal;
+}
+
+.smallFooter {
+	font-size : x-small;
+	text-align : center;
+}

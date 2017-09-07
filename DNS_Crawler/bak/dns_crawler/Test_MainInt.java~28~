@@ -1,0 +1,104 @@
+package dns_crawler;
+
+import junit.framework.*;
+import java.io.InputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.io.ByteArrayInputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListDataEvent;
+import java.awt.Event;
+
+public class Test_MainInt extends TestCase {
+    private MainInt mainInt = null;
+   // private Event lastEvent=null;
+     private ListDataEvent lastEvent = null;
+
+    public Test_MainInt(String name) {
+        super(name);
+    }
+
+
+
+
+
+    protected void setUp() throws Exception {
+        super.setUp();
+        mainInt = new MainInt();
+        mainInt.model.addListDataListener(new ListDataListener(){
+            public void intervalAdded(ListDataEvent e) {
+                lastEvent=e;
+                assertSame("Invalid source", mainInt.model, e.getSource());
+            }
+
+            public void intervalRemoved(ListDataEvent e) {
+                throw new UnsupportedOperationException(":(");
+            }
+
+            public void contentsChanged(ListDataEvent e) {
+                throw new UnsupportedOperationException(":(");
+            }
+
+        }
+            );
+
+
+        /*{
+          //  protected void closeConnection() {
+                //do nothing
+            }
+
+            protected InputStream getConnectionInputStream() throws IOException,
+                    NumberFormatException, MalformedURLException {
+                String html = "wasw wsaw";
+                return new ByteArrayInputStream(html.getBytes("cp1251"));
+            }
+
+        };*/
+    }
+
+    protected void tearDown() throws Exception {
+        mainInt = null;
+        super.tearDown();
+    }
+
+    public void testGetPage() throws NumberFormatException, IOException {
+       // mainInt.getPage(mainInt.getConnectionInputStream());
+        String html = "wasw wsaw";
+        //mainInt.getConnectionInputStream().read();
+            this.assertEquals("Различные слова",mainInt.getContent(new ByteArrayInputStream(html.getBytes("cp1251"))),html);
+        /**@todo fill in the test code*/
+    }
+
+    public void testHrefs(){
+        ArrayList<String> list = new ArrayList<String>();
+        for (int i=0;i<2;i++){
+            list.add(i+".html");
+        }
+         String html = "<html><a href = \"0.html \" страница 1 </a> afafsdgfsdfv   <a href = \"1.html \" страница 1 </a> afafsdgfsdfv  </html>";
+        this.assertEquals("Различные ссылки",(java.util.List<String>)list,mainInt.getHrefs(html));
+
+    }
+
+
+
+    public void testAdding(){
+        //DataModelClass mod = new DataModelClass();
+        for (int i=0;i<99;i++){
+            mainInt.model.addData(i+"");
+           // mainInt.model.addData("123");
+            this.assertEquals(i+1,mainInt.model.getSize());
+
+            this.assertEquals(lastEvent.getType(),ListDataEvent.INTERVAL_ADDED);
+
+            //     assertEquals(mod.getElementAt(i-1).getClass(),mainInt.model.getElementAt(i-1).getClass());
+        }
+
+    }
+
+
+
+}

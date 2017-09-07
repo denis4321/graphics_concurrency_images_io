@@ -1,0 +1,16 @@
+package threadex_.priority;
+
+public class ConcurrentThread extends Thread{
+
+    public ConcurrentThread(String name, int priority) {
+        setName(name);
+        setPriority(priority);
+    }
+
+    public void run(){
+        for (int i=0; i<100; i++){
+            PriorityMain.sb.append(getName()+" : "+i+"\n");
+            for (long j=0; j<100000000; j++){}
+        }
+    }
+}

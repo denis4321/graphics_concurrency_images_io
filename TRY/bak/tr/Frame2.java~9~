@@ -1,0 +1,116 @@
+package tr;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.ProgressMonitor;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Frame2 extends JFrame {
+    JPanel contentPane;
+    BorderLayout borderLayout1 = new BorderLayout();
+    JButton jButton1 = new JButton();
+    JButton jButton2 = new JButton();
+
+    public Frame2() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(borderLayout1);
+        setSize(new Dimension(400, 300));
+        setTitle("Frame Title");
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new Frame2_jButton1_actionAdapter(this));
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new Frame2_jButton2_actionAdapter(this));
+        contentPane.add(jButton1, java.awt.BorderLayout.NORTH);
+        contentPane.add(jButton2, java.awt.BorderLayout.EAST);
+    }
+
+    public void jButton1_actionPerformed(ActionEvent e) {
+      final ProgressDialog pDialog = new ProgressDialog(this);
+  Thread t = new Thread(){
+
+      public void run(){
+          for (int i=0;i<101;i++){
+              pDialog.setProgress(i);
+          }
+      }
+  };
+  t.setPriority(Thread.NORM_PRIORITY);
+  t.start();
+  pDialog.setVisible(true);
+  }
+
+    public void jButton2_actionPerformed(ActionEvent e) {
+        final ProgressMonitor monitor = new ProgressMonitor(this,"rrrrrrrrrrrrrrrrrrr","",0,100);
+    Thread t =new Thread(){
+        public void run() {
+           for (int i=0;i<1000&&!monitor.isCanceled();i++){
+               monitor.setProgress(i);
+               monitor.setNote(i+"%");
+           for (int j=0;j<100000;j++){
+
+           }
+
+           }
+
+        }
+    };
+    t.setPriority(Thread.NORM_PRIORITY);
+    t.start();
+
+}
+}
+
+
+class Frame2_jButton2_actionAdapter implements ActionListener {
+    private Frame2 adaptee;
+    Frame2_jButton2_actionAdapter(Frame2 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton2_actionPerformed(e);
+    }
+}
+
+
+class Frame2_jButton1_actionAdapter implements ActionListener {
+    private Frame2 adaptee;
+    Frame2_jButton1_actionAdapter(Frame2 adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton1_actionPerformed(e);
+    }
+}

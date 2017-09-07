@@ -1,0 +1,94 @@
+package htgraphicenum_;
+
+/**
+ * <p>Title: Enumerated functions</p>
+ *
+ * <p>Description: Graphic application with enums</p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: LightFire</p>
+ *
+ * @author Raziel Redstone
+ * @version 1.0
+ */
+public enum FuncType {
+    SIN("y = sin(x)") {
+            public float maxY(float maxX) {
+                return 1;
+            }
+
+            public float minY(float maxX) {
+                return -1;
+            }
+
+            public float getY(float x){
+                return (float)Math.sin(x);
+            }
+    },
+    COS("y = cos(x)") {
+             public float maxY(float maxX) {
+                 return 1;
+             }
+
+             public float minY(float maxX) {
+                 return -1;
+             }
+
+             public float getY(float x){
+                return (float)Math.cos(x);
+            }
+    },
+    SINCOS2("y = sin(x)cos(2x)") {
+            public float maxY(float maxX) {
+                return 1;
+            }
+
+            public float minY(float maxX) {
+                return -1;
+            }
+
+            public float getY(float x){
+                return (float)(Math.sin(x)*Math.cos(2*x));
+            }
+        },
+    SINCOS2COS3("y = sin(x)cos(2x)cos(3x)") {
+                public float maxY(float maxX) {
+                    return 1;
+                }
+
+                public float minY(float maxX) {
+                    return -2;
+                }
+
+                public float getY(float x){
+                    return (float)(Math.sin(x)*Math.cos(2*x)*Math.cos(3*x));
+                }
+        },
+    SQR("y = x^2"){
+                public float maxY(float maxX) {
+                    return maxX*maxX;
+                }
+
+                public float minY(float maxX) {
+                    return 0;
+                }
+
+                public float getY(float x){
+                    return (float)(Math.sin(x)*Math.cos(2*x)*Math.cos(3*x));
+                }
+    };
+
+    String title;
+
+    FuncType(String title){
+        this.title = title;
+    }
+
+   public abstract float maxY(float maxX);
+   public abstract float minY(float minX);
+   public abstract float getY(float x);
+   public String toString(){
+       return title;
+   }
+}

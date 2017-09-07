@@ -1,0 +1,22 @@
+package threadex_.priority;
+
+public class PriorityMain {
+    public static final StringBuffer sb = new StringBuffer();
+
+    public PriorityMain() {
+    }
+
+    public static void main(String[] args) {
+        ConcurrentThread t1 = new ConcurrentThread("First", Thread.NORM_PRIORITY-1);
+        ConcurrentThread t2 = new ConcurrentThread("\tSecond", Thread.NORM_PRIORITY-3);
+        t1.start();
+        t2.start();
+        /*try {
+            t1.join();
+            t2.join();
+            System.out.println(sb);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }*/
+    }
+}

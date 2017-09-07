@@ -1,0 +1,22 @@
+package enumexample_;
+
+public enum Month {
+    JAN("Январь"),
+    FEB("Февраль"),
+    MAR("Март");
+
+    private String title;
+
+    private Month(String title){
+        this.title = title;
+    }
+
+    public String getTitle(){
+        return title;
+    }
+
+    public String toString(){
+        return "На дворе месяц "+title;
+    }
+
+}

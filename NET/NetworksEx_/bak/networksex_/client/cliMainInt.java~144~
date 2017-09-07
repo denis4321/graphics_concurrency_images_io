@@ -1,0 +1,342 @@
+package networksex_.client;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.GridBagLayout;
+import java.awt.*;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import networksex_.common.*;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.InetAddress;
+import networksex_.common.ConnectionListener;
+import java.text.DateFormat;
+import java.util.Date;
+import javax.swing.JList;
+import networksex_.server.*;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JLabel;
+import javax.swing.JSplitPane;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class cliMainInt extends JFrame implements ConnectionListener {
+    private DataModelServer model = ServerConnection.serverModel;
+    private DataModelClient model2 = new DataModelClient();
+    private boolean nowIsModel2;
+    protected boolean toSendMessage = true;
+    private JPanel contentPane;
+    private GridBagLayout gridBagLayout1 = new GridBagLayout();
+    private JScrollPane jScrollPane1 = new JScrollPane();
+    private JTextField AddrField = new JTextField();
+    private JButton ConnectBut = new JButton();
+    private JTextField InputField = new JTextField();
+    private JButton DisconnectBut = new JButton();
+    private JButton SendBut = new JButton();
+    private JTextArea OutArea = new JTextArea();
+    private Connection conn = null;
+    private DateFormat dateF = DateFormat.getTimeInstance(DateFormat.MEDIUM);
+    private JScrollPane jScrollPane2 = new JScrollPane();
+    private JList jList1 = new JList();
+    private JButton jButton1 = new JButton();
+    private JButton jButton2 = new JButton();
+    JSplitPane jSplitPane1 = new JSplitPane();
+    private String s;
+    private boolean toPause;
+
+    public cliMainInt() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+            AddrField.setText("127.0.0.1");
+            setState(false);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        //model.setCars();
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(gridBagLayout1);
+        setSize(new Dimension(400, 300));
+        setTitle("Client");
+        AddrField.setPreferredSize(new Dimension(100, 19));
+        ConnectBut.setText("Ñîåäèíèòü");
+        ConnectBut.addActionListener(new cliMainInt_ConnectBut_actionAdapter(this));
+        DisconnectBut.setText("Ðàçîðâàòü");
+        DisconnectBut.addActionListener(new
+                                        cliMainInt_DisconnectBut_actionAdapter(this));
+        SendBut.setForeground(Color.blue);
+        SendBut.setText(">>>");
+        SendBut.addActionListener(new cliMainInt_SendBut_actionAdapter(this));
+        OutArea.setBackground(Color.black);
+        OutArea.setForeground(Color.cyan);
+        OutArea.setEditable(false);
+        jButton2.setText("ÇÀÊÀÇÀÒÜ");
+        jButton2.addActionListener(new cliMainInt_jButton2_actionAdapter(this));
+        jButton1.setText("ÊÎÐÇÈÍÀ");
+        jButton1.addActionListener(new cliMainInt_jButton1_actionAdapter(this));
+        jSplitPane1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        jScrollPane2.getViewport().add(jList1);
+        jScrollPane1.getViewport().add(OutArea);
+        contentPane.add(DisconnectBut,
+                        new GridBagConstraints(2, 0, 3, 1, 1.0, 0.0
+                                               , GridBagConstraints.WEST,
+                                               GridBagConstraints.NONE,
+                                               new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(AddrField, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(ConnectBut, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.NONE,
+                new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(SendBut, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+                , GridBagConstraints.EAST, GridBagConstraints.NONE,
+                new Insets(5, 5, 5, 5), 0, 0));
+        contentPane.add(jScrollPane1,
+                        new GridBagConstraints(0, 1, 2, 1, 1.0, 1.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.BOTH,
+                                               new Insets(0, 5, 0, 5), 0, 0));
+        contentPane.add(jScrollPane2,
+                        new GridBagConstraints(2, 1, 2, 1, 1.0, 0.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.BOTH,
+                                               new Insets(0, 0, 0, 7), 0, 0));
+        contentPane.add(jSplitPane1,
+                        new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+                                               , GridBagConstraints.CENTER,
+                                               GridBagConstraints.NONE,
+                                               new Insets(0, 0, 0, 0), 0, 0));
+        jSplitPane1.add(jButton1, JSplitPane.RIGHT);
+        jSplitPane1.add(jButton2, JSplitPane.LEFT);
+        contentPane.add(InputField, new GridBagConstraints(0, 2, 2, 1, 1.0, 0.0
+                , GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                new Insets(5, 5, 5, 70), 0, 0));
+        this.jList1.setCellRenderer(new DefaultListCellRenderer() {
+            public Component getListCellRendererComponent(JList list,
+                    Object value, int index, boolean isSelected,
+                    boolean cellHasFocus) {
+                Person1 p = new Person1();
+                p = (Person1) value;
+                JLabel lab = new JLabel();
+                lab = (JLabel)super.getListCellRendererComponent(list,
+                        p.getName() + " " + p.getAmount(), index, isSelected,
+                        cellHasFocus);
+                return lab;
+            }
+        });
+    }
+
+    public void setState(boolean isConnected) {
+        AddrField.setEditable(!isConnected);
+        ConnectBut.setEnabled(!isConnected);
+        DisconnectBut.setEnabled(isConnected);
+        this.jButton1.setEnabled(isConnected);
+        this.jButton2.setEnabled(isConnected);
+        InputField.setEditable(isConnected);
+        SendBut.setEnabled(isConnected);
+        if (isConnected) {
+            InputField.setText("");
+            OutArea.setText("");
+        }
+    }
+
+    public void connect() {
+        try {
+            InetAddress addr = null;
+            Socket s = new Socket(AddrField.getText(), 3334);
+            conn = new Connection(s, this);
+            System.out.println(conn.getAddress());
+            ConnectBut.setEnabled(false);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void disconnect() {
+        if (conn != null) {
+            DisconnectBut.setEnabled(false);
+            conn.close();
+        }
+    }
+
+    public void setMyModel(Connection c, int index) {
+        try {
+            model.consumeAuto(index);
+        } catch (Exception ex) {
+            this.connectionError(c,ex);
+        }
+    }
+
+    public void connectionCreated(Connection c) {
+        setState(true);
+        this.jList1.setModel(model);
+    }
+
+    public void connectionClosed(Connection c) {
+        setState(false);
+    }
+
+    public void messageReceived(Connection c, String mess) {
+        println(">>>" + mess);
+    }
+
+    public void connectionError(Connection c, Exception ex) {
+       this.jButton2.setEnabled(true);
+        println("ERROR: " + ex);
+    }
+
+    public void connectionPause(Connection c){
+        this.jButton2.setEnabled(true);
+    }
+
+    public void println(String mess) {
+        String str = mess;
+        OutArea.append(dateF.format(new Date()) + " " + str + "\n");
+    }
+
+    public void send() {
+        String mess = "";
+        if (conn != null) {
+            if (this.toSendMessage) {
+                mess = InputField.getText().trim();
+            } else {
+                Person1 p = model.getElementAt(jList1.getSelectedIndex());
+                mess = "ÇÀÊÀÇÀË " + p.getName();
+                model2.addData(p);
+                conn.getPerson().setName(p.getName());
+            }
+            if (mess.length() > 0) {
+                println(mess);
+                try {
+                    conn.send(mess);
+                    InputField.setText("");
+                } catch (Exception ex) {
+                    connectionError(conn, ex);
+                }
+            }
+        }
+    }
+
+    public void jButton2_actionPerformed(ActionEvent e) {
+          int i = jList1.getSelectedIndex();
+        if (i != -1) {
+        this.jButton2.setEnabled(false);
+            try {
+                Person1 p = ServerConnection.serverModel.consumeAuto(i);
+                this.toSendMessage = false;
+                send();
+            } catch (Exception ex) {
+                println("ERROR: " + ex);
+                this.jButton2.setEnabled(true);
+            }
+        }
+    }
+
+    public void jButton1_actionPerformed(ActionEvent e) {
+        if (!this.nowIsModel2) {
+            this.nowIsModel2 = true;
+            this.jList1.setModel(model2);
+            this.jButton1.setText("òîâàðîâ");
+            this.jButton2.setEnabled(false);
+            nowIsModel2 = true;
+        } else {
+            this.jButton1.setText("Êîðçèíà");
+            this.jButton2.setEnabled(true);
+            this.jList1.setModel(model);
+            nowIsModel2 = false;
+        }
+    }
+
+    public boolean connectionOder(Connection c) {
+        return toSendMessage;
+    }
+
+}
+
+
+class cliMainInt_jButton1_actionAdapter implements ActionListener {
+    private cliMainInt adaptee;
+    cliMainInt_jButton1_actionAdapter(cliMainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton1_actionPerformed(e);
+    }
+}
+
+
+class cliMainInt_jButton2_actionAdapter implements ActionListener {
+    private cliMainInt adaptee;
+    cliMainInt_jButton2_actionAdapter(cliMainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton2_actionPerformed(e);
+    }
+}
+
+
+class cliMainInt_SendBut_actionAdapter implements ActionListener {
+    private cliMainInt adaptee;
+    cliMainInt_SendBut_actionAdapter(cliMainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.toSendMessage = true;
+        adaptee.send();
+    }
+}
+
+
+class cliMainInt_DisconnectBut_actionAdapter implements ActionListener {
+    private cliMainInt adaptee;
+    cliMainInt_DisconnectBut_actionAdapter(cliMainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.disconnect();
+    }
+}
+
+
+class cliMainInt_ConnectBut_actionAdapter implements ActionListener {
+    private cliMainInt adaptee;
+    cliMainInt_ConnectBut_actionAdapter(cliMainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.connect();
+    }
+}

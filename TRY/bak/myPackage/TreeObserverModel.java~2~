@@ -1,0 +1,65 @@
+package myPackage;
+
+import javax.swing.JLabel;
+import java.util.ArrayList;
+import javax.swing.AbstractListModel;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class TreeObserverModel extends AbstractListModel  {
+    ArrayList<String> grandfatherList = new ArrayList<String>();
+    ArrayList<String> fatherList = new ArrayList<String>();
+    ArrayList<String> sunList = new ArrayList<String>();
+
+
+    public TreeObserverModel() {
+        this.grandfatherList.add(Potok1.grandfather.getName());
+        this.fatherList.add(Potok1.father.getName());
+        this.sunList.add(Potok1.sun.getName());
+    }
+
+
+
+    public void addGrandfatherData(String s){
+        grandfatherList.add(s);
+        this.fireIntervalAdded(this,0,this.getSize());
+    }
+
+    public void addFatherData(String s){
+       fatherList.add(s);
+        this.fireIntervalAdded(this,0,this.getSize());
+   }
+
+   public void addSunData(String s){
+       sunList.add(s);
+        this.fireIntervalAdded(this,0,this.getSize());
+   }
+
+   public void delGrandfatherData(int index){
+
+   }
+
+
+
+
+
+
+
+    public int getSize() {
+        return this.grandfatherList.size()-1+this.fatherList.size()-1+this.sunList.size()-1;
+    }
+
+    public Object getElementAt(int index) {
+        return null;
+    }
+}

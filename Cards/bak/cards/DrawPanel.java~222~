@@ -1,0 +1,328 @@
+package cards;
+
+import java.awt.Graphics;
+import javax.swing.JPanel;
+import java.awt.Toolkit;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import java.util.HashMap;
+import javax.swing.JButton;
+import java.awt.GridBagLayout;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.Rectangle;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class DrawPanel extends JPanel{
+    int next;
+    boolean b;
+    File f=new File("1.jpg");
+    int numberOgCards;
+    BufferedImage im;
+    int index;
+    public DrawPanel(Frame1 frame) {
+        this.frame=frame;
+        try {
+            String suf =f.getName().substring(f.getName().lastIndexOf(".")+1);
+            ImageReader r=ImageIO.getImageReadersBySuffix(suf).next();
+            ImageInputStream in = null;
+                in = ImageIO.createImageInputStream(f);
+                r.setInput(in);
+           im=r.read(0);
+           r.dispose();
+           in.close();
+            jbInit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    int playerScore;
+    int compScore;
+    int count;
+    Frame1 frame;
+    JButton jButton1 = new JButton();
+    JButton jButton2 = new JButton();
+    JButton his3 = new JButton();
+    JButton his2 = new JButton();
+    JButton his1 = new JButton();
+    JButton my2 = new JButton();
+    JButton my3 = new JButton();
+    JButton my1 = new JButton();
+    public HashMap<Integer,String> getIconByNumber(){
+        HashMap<Integer,String> map =new HashMap<Integer,String>();
+        for(int i=1;i<37;i++)map.put(i,"my//"+i+"q.PNG");
+        return map;
+    }
+
+
+    public HashMap<Integer,Integer> getScoreByInteger(){
+       HashMap<Integer,Integer> map =new HashMap<Integer,Integer>();
+       for(int i=1;i<37;i++){
+           if((i+36)%9==1) map.put(i,6);
+          else if((i+36)%9==2) map.put(i,7);
+           else if((i+36)%9==3) map.put(i,8);
+           else if((i+36)%9==4) map.put(i,9);
+          else  if((i+36)%9==0) map.put(i,11);
+           else  map.put(i,10);
+       }
+       return map;
+   }
+
+
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        if (b) {
+          my1.setIcon(null);
+        his1.setIcon(null);
+        his2.setIcon(null);
+        his3.setIcon(null);
+        my2.setIcon(null);
+        my3.setIcon(null);
+        b=!b;
+    }
+        g.drawImage(im,0,0,this);
+        int i=frame.generator.getKoloda()[count];
+         System.out.println((i+36)%9+"                                            i= "+i);
+         System.out.println("rrrrrrrrrr===== "+getScoreByInteger().get(i));
+         String str=getIconByNumber().get(i);
+        Image ic1 =new ImageIcon(str).getImage();
+        getScoreByInteger().get(i);
+        playerScore+=getScoreByInteger().get(i);
+        if(count==0){
+                        ImageIcon ic= new ImageIcon(ic1.getScaledInstance(my1.getWidth(),
+                                my1.getHeight(),
+                                Image.SCALE_AREA_AVERAGING));
+                        my1.setIcon(ic);
+        }
+        if(count==1){
+                      ImageIcon ic= new ImageIcon(ic1.getScaledInstance(my1.getWidth(),
+                              my2.getHeight(),
+                              Image.SCALE_AREA_AVERAGING));
+                      my2.setIcon(ic);
+        }
+        if(count==2){
+                      ImageIcon ic= new ImageIcon(ic1.getScaledInstance(my1.getWidth(),
+                              my3.getHeight(),
+                              Image.SCALE_AREA_AVERAGING));
+                      my3.setIcon(ic);
+        }
+
+
+        System.out.println("player's Score =  "+playerScore);
+    }
+
+
+
+
+    private void jbInit() throws Exception {
+        jButton1.setBounds(new Rectangle(228, 272, 72, 24));
+        jButton1.setText("Еще");
+        jButton1.addActionListener(new DrawPanel_jButton1_actionAdapter(this));
+        jButton2.setBounds(new Rectangle(354, 272, 57, 24));
+        jButton2.setText("Себе");
+        jButton2.addActionListener(new DrawPanel_jButton2_actionAdapter(this));
+        this.setLayout(null);
+        this.addMouseListener(new DrawPanel_this_mouseAdapter(this));
+        my1.setBounds(new Rectangle(257, 182, 38, 59));
+        my1.setBorderPainted(true);
+        my1.setContentAreaFilled(true);
+        my3.setBounds(new Rectangle(350, 182, 38, 59));
+        my3.setBorderPainted(false);
+        my2.setBounds(new Rectangle(304, 182, 38, 59));
+        my2.setContentAreaFilled(true);
+        his3.setBounds(new Rectangle(350, 42, 38, 60));
+        his3.setContentAreaFilled(true);
+        his2.setBounds(new Rectangle(304, 42, 38, 60));
+        his2.setContentAreaFilled(true);
+        his1.setBounds(new Rectangle(257, 42, 38, 59));
+        his1.setBorderPainted(true);
+        his1.setContentAreaFilled(true);
+        this.add(my2, null);
+        this.add(my3, null);
+        this.add(his3, null);
+        this.add(his2, null);
+        this.add(his1, null);
+        this.add(my1, null);
+        this.add(jButton1, null);
+        this.add(jButton2, null);
+    }
+
+
+    public void myPaint(String str){
+       numberOgCards++;
+       if ( numberOgCards==1){
+           Image ic1 =new ImageIcon(str).getImage();
+                      ImageIcon ic= new ImageIcon(ic1.getScaledInstance(my1.getWidth(),
+                              his1.getHeight(),
+                              Image.SCALE_AREA_AVERAGING));
+                      his1.setIcon(ic);
+       }
+       if ( numberOgCards==2){
+           Image ic1 =new ImageIcon(str).getImage();
+                      ImageIcon ic= new ImageIcon(ic1.getScaledInstance(his2.getWidth(),
+                              his2.getHeight(),
+                              Image.SCALE_AREA_AVERAGING));
+                      his2.setIcon(ic);
+
+       }
+       if ( numberOgCards==3){
+           Image ic1 =new ImageIcon(str).getImage();
+                      ImageIcon ic= new ImageIcon(ic1.getScaledInstance(my3.getWidth(),
+                              his3.getHeight(),
+                              Image.SCALE_AREA_AVERAGING));
+                      his3.setIcon(ic);
+       }
+
+   }
+
+
+    public void jButton1_actionPerformed(ActionEvent e) {
+       if (this.jButton1.getActionCommand().equals("1")){
+           this.jButton1.setActionCommand("0");
+          his1.setIcon(null);
+           his2.setIcon(null);
+          his3.setIcon(null);
+           my1.setIcon(null);
+            my2.setIcon(null);
+             my3.setIcon(null);
+              this.jButton1.setText("Еще");
+       }
+       else{
+        count++;
+        next++;
+        if (next==2)this.jButton1.setEnabled(false);
+       }
+        repaint();
+        this.jButton2.setEnabled(true);
+    }
+
+
+    public void reset(){
+        this.compScore=0;
+        this.count=0;
+        this.index=0;
+        this.next=0;
+        this.numberOgCards=0;
+        this.playerScore=0;
+        this.compScore=0;
+      /*  his1.setIcon(null);
+         his2.setIcon(null);
+          his3.setIcon(null);
+           my1.setIcon(null);
+            my2.setIcon(null);
+             my3.setIcon(null);*/
+    }
+
+    public void winner(){
+        if (this.compScore>this.playerScore){
+            frame.cWins++;
+        }
+        if (this.compScore<this.playerScore)frame.pWins++;
+        frame.setTitle("PLAYER:"+frame.pWins+"       "+"COMP:"+frame.cWins);
+        this.jButton1.setEnabled(true);
+        reset();
+        this.jButton1.setText("играть");
+        this.jButton1.setEnabled(true);
+        this.jButton1.setActionCommand("1");
+       // this.jButton1
+        //repaint();
+
+    }
+
+    public void jButton2_actionPerformed(ActionEvent e) {
+        jButton2.setEnabled(false);
+        jButton1.setEnabled(false);
+       // b=true;
+        this.compScore=0;
+        new Thread(){
+            public void run(){
+             //while (true){
+                while(compScore<=11){
+                    try {
+                        count++;
+                        Thread.sleep(900);
+                        int i=frame.generator.getKoloda()[count];
+
+                        int score=getScoreByInteger().get(i);
+                        String str=getIconByNumber().get(i);
+                        compScore+=score;
+                        System.out.println("comp =     "+compScore);
+                        myPaint(str);
+                  } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+            }
+           // jButton1.setEnabled(true);
+           // reset();
+           // b=true;
+           winner();
+          // reset();
+            frame.generator.setNewRandomKoloda();
+            //}
+        }
+    }.start();
+    }
+
+    public void this_mouseClicked(MouseEvent e) {
+        System.out.println(e.getX()+"   "+e.getY());
+    }
+
+
+}
+
+
+class DrawPanel_this_mouseAdapter extends MouseAdapter {
+    private DrawPanel adaptee;
+    DrawPanel_this_mouseAdapter(DrawPanel adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        adaptee.this_mouseClicked(e);
+    }
+}
+
+
+class DrawPanel_jButton2_actionAdapter implements ActionListener {
+    private DrawPanel adaptee;
+    DrawPanel_jButton2_actionAdapter(DrawPanel adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton2_actionPerformed(e);
+    }
+}
+
+
+class DrawPanel_jButton1_actionAdapter implements ActionListener {
+    private DrawPanel adaptee;
+    DrawPanel_jButton1_actionAdapter(DrawPanel adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.jButton1_actionPerformed(e);
+    }
+}

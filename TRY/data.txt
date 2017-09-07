@@ -1,0 +1,16 @@
+4#
+#Mon Mar 08 22:59:43 EET 2010
+image0=3
+patronymic0=jTextField2
+surname0=jTextField3
+name0=jTextField1
+#
+#Mon Mar 08 22:59:43 EET 2010
+image1=4
+image0=3
+patronymic1=jTextField2
+patronymic0=jTextField2
+surname1=jTextField3
+name1=jTextField1
+surname0=jTextField3
+name0=jTextField1

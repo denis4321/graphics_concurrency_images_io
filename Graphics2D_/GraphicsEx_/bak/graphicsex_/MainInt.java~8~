@@ -1,0 +1,57 @@
+package graphicsex_;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class MainInt extends JFrame {
+    JPanel contentPane;
+    BorderLayout borderLayout1 = new BorderLayout();
+    DrawPanel Draw = new DrawPanel();
+    JButton IncXBut = new JButton();
+    public MainInt() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            jbInit();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(borderLayout1);
+        setSize(new Dimension(400, 300));
+        setTitle("Frame Title");
+        IncXBut.setText("Увеличить х");
+        IncXBut.addActionListener(new MainInt_IncXBut_actionAdapter(this));
+        contentPane.add(Draw, java.awt.BorderLayout.CENTER);
+        contentPane.add(IncXBut, java.awt.BorderLayout.SOUTH);
+    }
+
+    public void IncXBut_actionPerformed(ActionEvent e) {
+        Draw.incx();
+    }
+}
+
+
+class MainInt_IncXBut_actionAdapter implements ActionListener {
+    private MainInt adaptee;
+    MainInt_IncXBut_actionAdapter(MainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.IncXBut_actionPerformed(e);
+    }
+}

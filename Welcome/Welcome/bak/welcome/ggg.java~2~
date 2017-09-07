@@ -1,0 +1,22 @@
+package welcome;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2009</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class ggg {
+
+  public void v(){
+ NumberFormatClass f= new NumberFormatClass();
+  //f.r=5;
+    }
+
+}

@@ -1,0 +1,33 @@
+package welcome;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Untitled1 extends Thread {
+  Object ob2 = new Object();
+  Object ob1 = new Object();
+  public Untitled1() {
+  }
+
+  public void mot1(){
+    synchronized(ob2){
+      System.out.println("I am in mot1");
+      sleep(12);
+    }
+  }
+
+
+
+  public static void main(String[] args) {
+    Untitled1 untitled1 = new Untitled1();
+  }
+}

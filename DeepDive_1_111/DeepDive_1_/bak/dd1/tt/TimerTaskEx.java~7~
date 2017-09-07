@@ -1,0 +1,27 @@
+package dd1.tt;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class TimerTaskEx {
+    public TimerTaskEx() {
+    }
+
+    public static void main(String[] args) {
+        Timer t = new Timer();
+        t.schedule(new TimerTask(){
+            private int count = 1;
+
+            public void run() {
+                //Таск - тормоз
+                try {
+                    System.out.println("Тормоз - "+(count++)+" time="+System.currentTimeMillis());
+                    Thread.sleep(200);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }, 1, 500);
+
+    }
+}

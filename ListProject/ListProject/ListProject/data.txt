@@ -1,0 +1,16 @@
+4#
+#Fri Jun 18 15:17:00 EEST 2010
+patronymic0=wwww
+icon0=5
+surname0=www
+name0=www
+#
+#Fri Jun 18 15:17:00 EEST 2010
+patronymic1=wwww
+patronymic0=wwww
+icon1=5
+icon0=5
+surname1=www
+name1=www
+surname0=www
+name0=www

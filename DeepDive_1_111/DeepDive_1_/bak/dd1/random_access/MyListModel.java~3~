@@ -1,0 +1,51 @@
+package dd1.random_access;
+
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import java.util.*;
+import javax.swing.event.*;
+import java.io.*;
+
+public class MyListModel /*implements ListModel*/extends AbstractListModel{
+    Vector data = new Vector();
+    public static final File DATA_FILE = new File("data.txt");
+    RandomAccessFile dataFile = null;
+
+    public MyListModel() throws IOException {
+        openDataFile();
+    }
+
+    private void openDataFile() throws IOException {
+        try {
+            dataFile = new RandomAccessFile(DATA_FILE, "rw");
+        } catch (FileNotFoundException ex){
+            DATA_FILE.createNewFile();
+            openDataFile();
+        }
+    }
+
+    public int getSize() {
+        return data.size();
+    }
+
+    public Object getElementAt(int index) {
+        return (Element)data.get(index);
+    }
+
+    public void addElement(Element e){
+        data.add(e);
+        this.fireIntervalAdded(this, getSize()-1, getSize()-1);
+    }
+
+    public void removeElement(int index){
+        data.remove(index);
+        this.fireIntervalRemoved(this, index, index);
+    }
+
+    public void removeElements(int[] indexes){
+        for (int i=indexes.length-1; i>=0; i--){
+            data.remove(indexes[i]);
+        }
+        this.fireIntervalRemoved(this, indexes[0], indexes[indexes.length-1]);
+    }
+}

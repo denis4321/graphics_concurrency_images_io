@@ -1,0 +1,76 @@
+package networksex_.common;
+
+import java.net.Socket;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.DataInputStream;
+
+/**
+ * Собственно сетевое соединение
+ */
+public class Connection implements Runnable{
+    private Socket sock;
+    private DataOutputStream out;
+    private boolean doRun = true;
+    public ConnectionListener listener;
+
+    public Connection(Socket s, ConnectionListener l) throws IOException {
+        sock = s;
+        this.listener = l;
+        out = new DataOutputStream(sock.getOutputStream());
+        Thread t = new Thread(this);
+        t.setPriority(Thread.NORM_PRIORITY);
+        t.setDaemon(true);
+        t.start();
+    }
+
+    public void send(String str) throws IOException {
+        out.writeInt(str.length());
+        out.write(str.getBytes());
+    }
+
+    public void run(){
+        listener.connectionCreated(this);
+        try{
+            DataInputStream in = new DataInputStream(sock.getInputStream());
+            byte[] buf = null;
+            int count = 0;
+            while (doRun){
+                if (in.available()>0){
+                    if (buf==null){
+                        int size = in.readInt();
+                        buf = new byte[size];
+                        count = 0;
+                    } else {
+                        buf[count++] = (byte)in.read();
+                        if (count>=buf.length){
+                            //Сообщение пришло
+                            listener.messageReceived(this, new String(buf));
+                            buf = null;
+                        }
+                    }
+                } else {
+                    Thread.sleep(100);
+                }
+            }
+        } catch (Exception ex){
+            listener.connectionError(this, ex);
+        }
+        //System.out.println("Closing connection...");
+        try {
+            sock.close();
+        } catch (IOException ex) {
+            listener.connectionError(this, ex);
+        }
+        listener.connectionClosed(this);
+        System.out.println(this+"closed");
+    }
+
+    public void close(){
+        doRun = false;
+    }
+
+    public String getAddress(){
+        return sock.getInetAddress().toString();
+    }
+}

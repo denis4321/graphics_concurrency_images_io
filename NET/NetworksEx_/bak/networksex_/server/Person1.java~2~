@@ -1,0 +1,41 @@
+package networksex_.server;
+
+//import networksex_.client.Person1;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Person1 {
+   private String name;
+   private int amount;
+
+    public void setName(String name){
+        this.name=name;
+    }
+
+    public void setOder() throws Exception {
+        if (amount==0)throw new Exception();
+        this.amount--;
+    }
+
+    public int getAmount(){
+            return amount;
+    }
+
+    public void setAmount(int amount){
+        this.amount=amount;
+    }
+
+    public String getName(){
+        return name;
+    }
+}

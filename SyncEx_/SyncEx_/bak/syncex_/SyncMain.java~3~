@@ -1,0 +1,19 @@
+package syncex_;
+
+public class SyncMain {
+
+    public SyncMain() {
+        MyThread t1 = new MyThread(500, this, "Thread1");
+        MyThread t2 = new MyThread(700, this, "tHREAD2");
+        t1.start();
+        t2.start();
+    }
+
+    public static void main(String[] args) {
+        new SyncMain();
+    }
+
+    public void print(String mess){
+        System.out.println(mess);
+    }
+}

@@ -1,0 +1,78 @@
+package welcome;
+
+import java.io.File;
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2009</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class FileFinder {
+private long amountOfFiles;
+/*   метод для поиска файла с параметром имени nameOfFileIsSearching,
+ в заданном месте для поиска topDirectory,
+ список для хранения подходящих эл-ов reultList
+ */
+  public List search(File topDirectory, String nameOfFileIsSearching, List resultList){
+    File[] listOfFiles = topDirectory.listFiles();
+try{
+    long n=listOfFiles.length;
+
+    for (int i=0;i<n;i++){
+
+      if (listOfFiles[i].isDirectory()){
+        //проверка удовлетворения параметрам поиска
+        doesItSutisfactNameOfParameters(resultList,listOfFiles[i],nameOfFileIsSearching);
+        //поиск во вложенных папках
+        search(listOfFiles[i],nameOfFileIsSearching,resultList);
+      }
+
+     else { doesItSutisfactNameOfParameters(resultList,listOfFiles[i],nameOfFileIsSearching);}
+    }}
+  catch (NullPointerException e){
+            //JOptionPane.showMessageDialog(null,"as");
+      }
+
+
+    amountOfFiles=resultList.size();
+    return resultList;
+  }
+
+  //метод для проверки для проверки удовлетворения параметрам поиска
+  private void doesItSutisfactNameOfParameters(List thatResultList,File fileIsChecking,String name){
+    if (fileIsChecking.getName().contains(name)){
+      thatResultList.add(fileIsChecking);
+    }
+  }
+
+  //МЕТОД ДЛЯ ЗАДАНИЯ ПОИСКОКВОЙ ДИРЕКТОРИИ И ПРОВЕРКИ ЕЕ СУЩЕСТВОВАНИЯ
+  private List find(String pathName, String name) throws Exception {
+    File topDirectory = new File(pathName);
+    if (!topDirectory.exists()) throw new Exception("ОШИБКА:УКАЗАННЫЙ ФАЙЛ НЕ СУЩЕСТВУЕТ");
+    ArrayList resultList = new ArrayList();
+    search(topDirectory,name, resultList);
+    return resultList;
+  }
+
+  public List findDirectory(String pathName,String name) throws Exception {
+    return find(pathName, name);
+  }
+
+  //МЕТОДЫ ДЛЯ ВОЗВРАЩЕНИЯ КОЛ-ВА ФАЙЛОВ, ДИРЕТОРИЙ, ОБОИХ
+  public long getTotalLength(){
+  return amountOfFiles;
+  }
+
+
+
+}

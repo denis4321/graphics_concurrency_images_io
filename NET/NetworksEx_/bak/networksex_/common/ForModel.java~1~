@@ -1,0 +1,31 @@
+package networksex_.common;
+
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
+import networksex_.server.Person1;
+import javax.swing.JLabel;
+import java.awt.Component;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class ForModel extends DefaultListCellRenderer{
+
+    public Component getListCellRendererComponent(JList list,Object value, int index, boolean isSelected,boolean cellHasFocus) {
+        Person1 p =new Person1();
+        p=(Person1)value;
+        JLabel lab=(JLabel)super.getListCellRendererComponent(list,p.getName()+" "+p.getAmount(),index,isSelected,cellHasFocus);
+             return lab;
+         }
+           })
+
+}

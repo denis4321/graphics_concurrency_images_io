@@ -1,0 +1,242 @@
+#
+# An unexpected error has been detected by HotSpot Virtual Machine:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x77c37fd4, pid=2524, tid=3532
+#
+# Java VM: Java HotSpot(TM) Client VM (1.5.0_03-b07 mixed mode)
+# Problematic frame:
+# C  [msvcrt.dll+0x37fd4]
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x3b32e7b0):  JavaThread "AWT-EventQueue-0" [_thread_in_native, id=3532]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0x3b717000
+
+Registers:
+EAX=0x3b717000, EBX=0x3b32e7b0, ECX=0x3bdfc0c2, EDX=0x7c90e514
+ESP=0x3bdff574, EBP=0x3bdff574, ESI=0x3b716ae0, EDI=0x00000000
+EIP=0x77c37fd4, EFLAGS=0x00010282
+
+Top of Stack: (sp=0x3bdff574)
+0x3bdff574:   3bdff5a0 6d13aa16 3b716ae0 00000000
+0x3bdff584:   00000011 3b32e7b0 0343a560 3bdff580
+0x3bdff594:   3bdffa64 6d1635b8 00000000 3bdff5c0
+0x3bdff5a4:   017350c6 3b32e86c 3bdff5bc 00000011
+0x3bdff5b4:   00000000 0343a0a0 32d71ed8 3bdff628
+0x3bdff5c4:   0172f224 00000011 00000000 0343a0a0
+0x3bdff5d4:   3bdff5d4 00000000 3bdff600 33ee18c8
+0x3bdff5e4:   00000000 33edd4c8 3bdff600 3bdff620 
+
+Instructions: (pc=0x77c37fd4)
+0x77c37fc4:   5b 5d c3 cc cc cc cc cc 8b ff 55 8b ec 8b 45 08
+0x77c37fd4:   66 8b 08 40 40 66 85 c9 75 f6 2b 45 08 d1 f8 48 
+
+
+Stack: [0x3bd00000,0x3be00000),  sp=0x3bdff574,  free space=1021k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  [msvcrt.dll+0x37fd4]
+C  [awt.dll+0xcaa16]
+J  sun.awt.windows.WDataTransferer.getClipboardFormatName(J)Ljava/lang/String;
+J  sun.awt.datatransfer.DataTransferer.getFlavorsForFormatsAsSet([JLjava/awt/datatransfer/FlavorTable;)Ljava/util/Set;
+J  sun.awt.datatransfer.SunClipboard.isDataFlavorAvailable(Ljava/awt/datatransfer/DataFlavor;)Z
+J  com.borland.primetime.viewer.TextView$27.update(Ljava/lang/Object;)V
+J  com.borland.primetime.actions.DelegateAction.update(Ljava/lang/Object;)V
+J  com.borland.primetime.ide.Browser$UpdateTimer$Updater.actionPerformed(Ljava/awt/event/ActionEvent;)V
+J  javax.swing.Timer.fireActionPerformed(Ljava/awt/event/ActionEvent;)V
+J  javax.swing.Timer$DoPostEvent.run()V
+J  java.awt.event.InvocationEvent.dispatch()V
+J  java.awt.EventQueue.dispatchEvent(Ljava/awt/AWTEvent;)V
+J  java.awt.EventDispatchThread.pumpOneEventForHierarchy(ILjava/awt/Component;)Z
+J  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V
+v  ~OSRAdapter
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+j  java.awt.EventDispatchThread.run()V+9
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0x818b8]
+V  [jvm.dll+0xd431d]
+V  [jvm.dll+0x81789]
+V  [jvm.dll+0x814e6]
+V  [jvm.dll+0x9c06b]
+V  [jvm.dll+0xfe7f5]
+V  [jvm.dll+0xfe7c3]
+C  [msvcrt.dll+0x2a3b6]
+C  [kernel32.dll+0xb729]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+J  sun.awt.windows.WDataTransferer.getClipboardFormatName(J)Ljava/lang/String;
+J  sun.awt.datatransfer.DataTransferer.getFlavorsForFormatsAsSet([JLjava/awt/datatransfer/FlavorTable;)Ljava/util/Set;
+J  sun.awt.datatransfer.SunClipboard.isDataFlavorAvailable(Ljava/awt/datatransfer/DataFlavor;)Z
+J  com.borland.primetime.viewer.TextView$27.update(Ljava/lang/Object;)V
+J  com.borland.primetime.actions.DelegateAction.update(Ljava/lang/Object;)V
+J  com.borland.primetime.ide.Browser$UpdateTimer$Updater.actionPerformed(Ljava/awt/event/ActionEvent;)V
+J  javax.swing.Timer.fireActionPerformed(Ljava/awt/event/ActionEvent;)V
+J  javax.swing.Timer$DoPostEvent.run()V
+J  java.awt.event.InvocationEvent.dispatch()V
+J  java.awt.EventQueue.dispatchEvent(Ljava/awt/AWTEvent;)V
+J  java.awt.EventDispatchThread.pumpOneEventForHierarchy(ILjava/awt/Component;)Z
+J  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V
+v  ~OSRAdapter
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+j  java.awt.EventDispatchThread.run()V+9
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x3b4b7e78 JavaThread "Headspace mixer frame proc thread" daemon [_thread_blocked, id=2732]
+  0x3ca40b78 JavaThread "Java Sound Event Dispatcher" daemon [_thread_blocked, id=184]
+  0x3b501408 JavaThread "JavaInsight-1" [_thread_blocked, id=1820]
+  0x3aaed688 JavaThread "VCS Scanner Thread" [_thread_blocked, id=636]
+  0x3ac8ddb0 JavaThread "Peer State Maintenance" daemon [_thread_blocked, id=3732]
+  0x3acad780 JavaThread "VFS Decoration Provider" [_thread_blocked, id=1244]
+  0x3ab312c8 JavaThread "Browser Server" [_thread_in_native, id=3720]
+  0x3aaaf918 JavaThread "TimerQueue" daemon [_thread_blocked, id=3716]
+  0x00339358 JavaThread "DestroyJavaVM" [_thread_blocked, id=2500]
+=>0x3b32e7b0 JavaThread "AWT-EventQueue-0" [_thread_in_native, id=3532]
+  0x3af43cf8 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=3556]
+  0x3b12c8b0 JavaThread "AWT-Windows" daemon [_thread_in_native, id=3548]
+  0x3b26bd18 JavaThread "AWT-Shutdown" [_thread_blocked, id=3544]
+  0x0109e4d0 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=2664]
+  0x0109d138 JavaThread "CompilerThread0" daemon [_thread_blocked, id=2624]
+  0x0109c430 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=2656]
+  0x01093868 JavaThread "Finalizer" daemon [_thread_blocked, id=2652]
+  0x010923d8 JavaThread "Reference Handler" daemon [_thread_blocked, id=2648]
+
+Other Threads:
+  0x0108fa40 VMThread [id=2644]
+  0x0109f7d8 WatcherThread [id=2668]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ def new generation   total 3584K, used 3074K [0x03150000, 0x03530000, 0x06b00000)
+  eden space 3200K,  93% used [0x03150000, 0x0343ec78, 0x03470000)
+  from space 384K,  18% used [0x03470000, 0x03481b90, 0x034d0000)
+  to   space 384K,   0% used [0x034d0000, 0x034d0000, 0x03530000)
+ tenured generation   total 46564K, used 42665K [0x06b00000, 0x09879000, 0x31f50000)
+   the space 46564K,  91% used [0x06b00000, 0x094aa460, 0x094aa600, 0x09879000)
+ compacting perm gen  total 39680K, used 39393K [0x31f50000, 0x34610000, 0x39f50000)
+   the space 39680K,  99% used [0x31f50000, 0x345c85f8, 0x345c8600, 0x34610000)
+No shared spaces configured.
+
+Dynamic libraries:
+0x00400000 - 0x00433000 	C:\Borland\JBuilder2006\bin\JBuilderw.exe
+0x7c900000 - 0x7c9b3000 	C:\WINDOWS\system32\ntdll.dll
+0x7c800000 - 0x7c8f8000 	C:\WINDOWS\system32\kernel32.dll
+0x77dc0000 - 0x77e6c000 	C:\WINDOWS\system32\ADVAPI32.DLL
+0x77e70000 - 0x77f02000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77fe0000 - 0x77ff1000 	C:\WINDOWS\system32\Secur32.dll
+0x71ab0000 - 0x71aba000 	C:\WINDOWS\system32\WSOCK32.DLL
+0x71a90000 - 0x71aa7000 	C:\WINDOWS\system32\WS2_32.dll
+0x77c00000 - 0x77c58000 	C:\WINDOWS\system32\msvcrt.dll
+0x71a80000 - 0x71a88000 	C:\WINDOWS\system32\WS2HELP.dll
+0x77f10000 - 0x77f59000 	C:\WINDOWS\system32\GDI32.DLL
+0x7e360000 - 0x7e3fe000 	C:\WINDOWS\system32\USER32.dll
+0x76360000 - 0x7637d000 	C:\WINDOWS\system32\IMM32.DLL
+0x62f00000 - 0x62f09000 	C:\WINDOWS\system32\LPK.DLL
+0x75540000 - 0x755ab000 	C:\WINDOWS\system32\USP10.dll
+0x746e0000 - 0x7472c000 	C:\WINDOWS\system32\MSCTF.dll
+0x65780000 - 0x657a3000 	C:\Program Files\Alwil Software\Avast4\AhJsctNs.dll
+0x71a30000 - 0x71a70000 	C:\WINDOWS\System32\mswsock.dll
+0x76f10000 - 0x76f37000 	C:\WINDOWS\system32\DNSAPI.dll
+0x75310000 - 0x7533e000 	C:\WINDOWS\system32\msctfime.ime
+0x774d0000 - 0x7760e000 	C:\WINDOWS\system32\ole32.dll
+0x76d50000 - 0x76d69000 	C:\WINDOWS\system32\iphlpapi.dll
+0x76fb0000 - 0x76fb6000 	C:\WINDOWS\system32\rasadhlp.dll
+0x6d6b0000 - 0x6d836000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\client\jvm.dll
+0x76b20000 - 0x76b4e000 	C:\WINDOWS\system32\WINMM.dll
+0x5d270000 - 0x5d277000 	C:\WINDOWS\system32\serwvdrv.dll
+0x5b590000 - 0x5b597000 	C:\WINDOWS\system32\umdmxfrm.dll
+0x6d2f0000 - 0x6d2f8000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\hpi.dll
+0x76be0000 - 0x76beb000 	C:\WINDOWS\system32\PSAPI.DLL
+0x6d680000 - 0x6d68c000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\verify.dll
+0x6d370000 - 0x6d38d000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\java.dll
+0x6d6a0000 - 0x6d6af000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\zip.dll
+0x6d530000 - 0x6d543000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\net.dll
+0x698b0000 - 0x69908000 	C:\WINDOWS\system32\hnetcfg.dll
+0x58f10000 - 0x58f17000 	C:\WINDOWS\System32\wship6.dll
+0x6d550000 - 0x6d559000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\nio.dll
+0x76fa0000 - 0x76fa8000 	C:\WINDOWS\System32\winrnr.dll
+0x76f50000 - 0x76f7d000 	C:\WINDOWS\system32\WLDAP32.dll
+0x6d070000 - 0x6d1d7000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\awt.dll
+0x72fc0000 - 0x72fe6000 	C:\WINDOWS\system32\WINSPOOL.DRV
+0x73720000 - 0x7376b000 	C:\WINDOWS\system32\ddraw.dll
+0x73b80000 - 0x73b86000 	C:\WINDOWS\system32\DCIMAN32.dll
+0x73900000 - 0x739d0000 	C:\WINDOWS\system32\D3DIM700.DLL
+0x7c9c0000 - 0x7d8b6000 	C:\WINDOWS\system32\shell32.dll
+0x77f60000 - 0x77fd8000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x773c0000 - 0x774b8000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.2600.5705_x-ww_36cfed49\comctl32.dll
+0x5d5b0000 - 0x5d652000 	C:\WINDOWS\system32\comctl32.dll
+0x6d2b0000 - 0x6d2ed000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\fontmanager.dll
+0x77910000 - 0x77adb000 	C:\WINDOWS\system32\SETUPAPI.dll
+0x77110000 - 0x7719b000 	C:\WINDOWS\system32\OLEAUT32.dll
+0x769a0000 - 0x76a55000 	C:\WINDOWS\system32\USERENV.dll
+0x5bd50000 - 0x5bda6000 	C:\WINDOWS\system32\netapi32.dll
+0x77b30000 - 0x77b52000 	C:\WINDOWS\system32\appHelp.dll
+0x71a70000 - 0x71a78000 	C:\WINDOWS\System32\wshtcpip.dll
+0x00d30000 - 0x00d37000 	C:\Borland\JBuilder2006\bin\StSDKNativeFileAccess_02.dll
+0x73d90000 - 0x73e8e000 	C:\WINDOWS\system32\MFC42.DLL
+0x61ec0000 - 0x61ece000 	C:\WINDOWS\system32\MFC42LOC.DLL
+0x00dc0000 - 0x00de5000 	C:\Borland\JBuilder2006\bin\StWinProfile.dll
+0x76760000 - 0x76769000 	C:\WINDOWS\system32\SHFOLDER.dll
+0x00e00000 - 0x00e07000 	C:\Borland\JBuilder2006\bin\StSDKOSEnvironment_01.dll
+0x3bb50000 - 0x3bb75000 	C:\Borland\JBuilder2006\OptimizeitEntSuite2006\lib\heapui.dll
+0x3bb80000 - 0x3bb97000 	C:\Borland\JBuilder2006\OptimizeitEntSuite2006\lib\tdl.dll
+0x3bbb0000 - 0x3bbd0000 	C:\Borland\JBuilder2006\OptimizeitEntSuite2006\lib\ccsnapshot.dll
+0x6d230000 - 0x6d253000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\dcpr.dll
+0x6d4e0000 - 0x6d505000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\jsound.dll
+0x6d510000 - 0x6d517000 	C:\Borland\JBuilder2006\jdk1.5\jre\bin\jsoundds.dll
+0x73ed0000 - 0x73f2c000 	C:\WINDOWS\system32\DSOUND.dll
+0x77bf0000 - 0x77bf8000 	C:\WINDOWS\system32\VERSION.dll
+0x72ce0000 - 0x72ce9000 	C:\WINDOWS\system32\wdmaud.drv
+0x76c20000 - 0x76c4e000 	C:\WINDOWS\system32\WINTRUST.dll
+0x3c960000 - 0x3c9f6000 	C:\WINDOWS\system32\CRYPT32.dll
+0x77b10000 - 0x77b22000 	C:\WINDOWS\system32\MSASN1.dll
+0x76c80000 - 0x76ca8000 	C:\WINDOWS\system32\IMAGEHLP.dll
+0x72cd0000 - 0x72cd8000 	C:\WINDOWS\system32\msacm32.drv
+0x77bd0000 - 0x77be5000 	C:\WINDOWS\system32\MSACM32.dll
+0x77bc0000 - 0x77bc8000 	C:\WINDOWS\system32\midimap.dll
+
+VM Arguments:
+jvm_args: -Dsun.jvm.hotspot.debugger.windbg.imagePath -Xminf0.2 -Xmaxf0.2 -Xverify:none -Dsun.java2d.ddoffscreen=false -Xms32m -Xmx750m -XX:MaxPermSize=128m -Djava.security.auth.login.config=C:\Borland\JBuilder2006\bin\..\bin\PeerToPeer.conf -Dborland.optimizeit.path0=C:\Borland\JBuilder2006\OptimizeitEntSuite2006 -Dborland.optimizeit.groupid0=2 -Dborland.optimizeit.path1=C:\Borland\JBuilder2006\OptimizeitEntSuite2006 -Dborland.optimizeit.groupid1=2 -Dborland.optimizeit.path2=C:\Borland\JBuilder2006\OptimizeitEntSuite2006 -Dborland.optimizeit.groupid2=2 -Dborland.optimizeit.path5=C:\Borland\JBuilder2006\OptimizeitEntSuite2006 -Dborland.optimizeit.groupid5=2 -DPlafColors_OI=true -Dborland.socket=8888 -Dborland.exportenv=C:\DOCUME~2\Me\LOCALS~1\Temp\JEn2.tmp -Dborland.splash=C:\Borland\JBuilder2006\bin\jbuilder_2006.bmp -Djava.library.path=.;C:\Borland\JBuilder2006\bin;C:\Borland\JBuilder2006\jdk1.5\bin;C:\PVSW\BIN;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\QuickTime\QTSystem\;C:\Borland\JBuilder2006\debug\sa;C:\Borland\JBuilder2006\lib -Dlauncher.commandline.params=-Djava.library.path=.;C:\Borland\JBuilder2006\bin;C:\Borland\JBuilder2006\jdk1.5\bin;C:\PVSW\BIN;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\QuickTime\QTSystem\;C:\Borland\JBuilder2006\debug\sa;C:\Borland\JBuilder2006\lib -Dlauncher.config.params=-Dsun.jvm.hotspot.debugger.windbg.imagePath
+-Xminf0.2
+-Xmaxf0.2
+-Xverify:none
+-Dsun.java2d.ddoffscreen=false
+-Xms32m
+-Xmx750m
+-XX:MaxPermSize=128m
+-Djava.security.auth.login.config=C:\Borland\JBuilder2006\bin\..\bin\PeerToPeer.conf
+-Dborland.optimizeit.path0=C:\Borland\JBuilder2006\OptimizeitEntSuite2006
+-Dborland.optimizeit.groupid0=2
+-Dborland.optimizeit.path1=C:\Borland\JBuilder2006\OptimizeitEntSuite2006
+-Dborland.optimizeit.groupid1=2
+-Dborland.optimizeit.path2=C:\Borland\JBuilder2006\OptimizeitEntSuite2006
+-Dborland.optimizeit.groupid2=2
+-Dborland.optimizeit.path5=C:\Borland\JBuilder2006\Optimizeit
+java_command: <unknown>
+
+Environment Variables:
+CLASSPATH=.;C:\PVSW\BIN\PVJDBC2X.JAR;C:\PVSW\BIN\PVJDBC2.JAR;C:\Program Files\QuickTime\QTSystem\QTJava.zip
+PATH=.;C:\Borland\JBuilder2006\bin;C:\Borland\JBuilder2006\jdk1.5\bin;C:\PVSW\BIN;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\QuickTime\QTSystem\;C:\Borland\JBuilder2006\debug\sa;C:\Borland\JBuilder2006\lib
+USERNAME=Me
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 15 Stepping 13, GenuineIntel
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows XP Build 2600 Service Pack 3
+
+CPU:total 2 family 6, cmov, cx8, fxsr, mmx, sse, sse2, ht
+
+Memory: 4k page, physical 1047724k(328728k free), swap 2518068k(1538240k free)
+
+vm_info: Java HotSpot(TM) Client VM (1.5.0_03-b07) for windows-x86, built on Apr 13 2005 02:07:01 by "java_re" with MS VC++ 6.0
+

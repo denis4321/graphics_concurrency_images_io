@@ -1,0 +1,129 @@
+package filechooserex_;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JCheckBox;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import java.io.File;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.Icon;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+
+
+public class MainInt extends JFrame {
+    JPanel contentPane;
+    BorderLayout borderLayout1 = new BorderLayout();
+    JCheckBox EmbeddedCheck = new JCheckBox();
+    JButton ShowBut = new JButton();
+    JFileChooser fc = new JFileChooser();
+    Icon ic = null;
+
+    public MainInt() {
+        try {
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            //Загружаем иконку
+            Image img = Toolkit.getDefaultToolkit().getImage(getClass().getResource("icons/1201.jpg"))/*.getScaledInstance(50, 50, Image.SCALE_SMOOTH)*/;
+            ic = new ImageIcon(img);
+            jbInit();
+            setEmbedded();
+            //Настраиваем файлчюзер
+            fc.setCurrentDirectory(new File("."));//Текущая директория
+            fc.setMultiSelectionEnabled(false);//Возможность выбора нескольких файлов
+            fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);//Тип выбора
+            fc.setDialogTitle("Выбор файла");
+            fc.addChoosableFileFilter(new FileFilter(){//Добавить выбираемый фильтр
+                public boolean accept(File f) {
+                    if (f.isDirectory()) return true;
+                    if (f.getName().toLowerCase().endsWith(".jpg")) return true;
+                    return false;
+                }
+
+                public String getDescription() {
+                    return "JPEG";
+                }
+            });
+            fc.addChoosableFileFilter(new FileFilter(){
+                public boolean accept(File f) {
+                    if (f.isDirectory()) return true;
+                    if (f.getName().toLowerCase().endsWith(".bmp")) return true;
+                    return false;
+                }
+
+                public String getDescription() {
+                    return "BMP";
+                }
+            });
+
+            //fc.setAcceptAllFileFilterUsed(false);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Component initialization.
+     *
+     * @throws java.lang.Exception
+     */
+    private void jbInit() throws Exception {
+        contentPane = (JPanel) getContentPane();
+        contentPane.setLayout(borderLayout1);
+        setSize(new Dimension(400, 300));
+        setTitle("File Chooser example");
+        EmbeddedCheck.setText("Встроенный файлчюзер");
+        EmbeddedCheck.addActionListener(new MainInt_EmbeddedCheck_actionAdapter(this));
+        ShowBut.setIcon(ic);
+        ShowBut.setText("Показать файлчузер");
+        ShowBut.addActionListener(new MainInt_ShowBut_actionAdapter(this));
+        contentPane.add(EmbeddedCheck, java.awt.BorderLayout.NORTH);
+    }
+
+    public void setEmbedded() {
+        fc.setControlButtonsAreShown(!EmbeddedCheck.isSelected());//Управление контролами
+        if (!EmbeddedCheck.isSelected()){
+            contentPane.remove(fc);
+            contentPane.add(ShowBut, java.awt.BorderLayout.SOUTH);
+        } else {
+            contentPane.remove(ShowBut);
+            contentPane.add(fc, BorderLayout.CENTER);
+        }
+        this.pack();
+    }
+
+    public void showFileChooser() {
+        int usrReply = fc.showDialog(this, "Открыть");
+        System.out.println("user chooses "+(usrReply==JFileChooser.APPROVE_OPTION ? "approve" : "cancel")+" option");
+    }
+}
+
+
+class MainInt_ShowBut_actionAdapter implements ActionListener {
+    private MainInt adaptee;
+    MainInt_ShowBut_actionAdapter(MainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.showFileChooser();
+    }
+}
+
+
+class MainInt_EmbeddedCheck_actionAdapter implements ActionListener {
+    private MainInt adaptee;
+    MainInt_EmbeddedCheck_actionAdapter(MainInt adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        adaptee.setEmbedded();
+    }
+}

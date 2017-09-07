@@ -1,0 +1,52 @@
+package tr;
+
+import java.util.Vector;
+import java.io.Serializable;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Person implements Serializable {
+
+    private String name,surname,patronymic;
+    private int image;
+
+    public void setName(String name){
+        this.name=name;
+    }
+    public void setImage(int i){
+        image=i;
+    }
+    public void setSurname(String surname){
+        this.surname=surname;
+    }
+    public void setPatronymic(String patronymic){
+        this.patronymic=patronymic;
+    }
+    public String getName(){
+        return name;
+    }
+    public String getSurname(){
+        return surname;
+    }
+    public String getPatronymic(){
+        return patronymic;
+    }
+    public int getImage(){
+        return image;
+    }
+
+
+
+
+
+}

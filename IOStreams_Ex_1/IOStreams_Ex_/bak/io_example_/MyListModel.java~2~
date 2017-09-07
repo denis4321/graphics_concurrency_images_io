@@ -1,0 +1,33 @@
+package io_example_;
+
+import javax.swing.*;
+import javax.swing.event.ListDataListener;
+import java.util.*;
+import javax.swing.event.*;
+
+public class MyListModel extends AbstractListModel{
+    Vector<Element> data = new Vector<Element>();
+    //Vector listeners = new Vector();
+
+    public MyListModel() {
+    }
+
+    public int getSize() {
+        return data.size();
+    }
+
+    public Element getElementAt(int index) {
+        return data.get(index);
+    }
+
+    public void addElement(Element e){
+        data.add(e);
+        this.fireIntervalAdded(this, getSize()-1, getSize()-1);
+    }
+
+    public void removeElement(int index){
+        data.remove(index);
+        this.fireIntervalRemoved(this, index, index);
+    }
+
+}

@@ -1,0 +1,48 @@
+package cards;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Game1 {
+
+    public Game1() {
+
+    }
+
+    public void igraem(){
+        if (Frame1.drawpanel2.getHoguPerviy()){
+            Frame1.game.setFirst(Frame1.stepsCards.a);
+            Frame1.game.setSecond(Frame1.stepsCards.b);
+            Frame1.game.setThird(Frame1.stepsCards.c);
+            Frame1.game.setFourth(Frame1.stepsCards.d);
+
+            for (int i=0;i<9;i++){
+                if (Frame1.drawpanel1.getNumbersOfCards()[i]!=-1){
+                    Frame1.drawpanel1.setKinutaCarta(Frame1.drawpanel1.getNumbersOfCards()[i]);
+                    break;
+                }
+            }
+        if (
+
+
+
+    }
+
+
+
+
+    }
+
+
+
+
+}

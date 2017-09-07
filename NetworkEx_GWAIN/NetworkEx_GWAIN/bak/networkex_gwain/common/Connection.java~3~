@@ -1,0 +1,66 @@
+package networkex_gwain.common;
+
+import java.net.*;
+import java.io.*;
+
+public class Connection implements Runnable{
+    private Socket sock;
+    private DataOutputStream out;
+    private boolean doRun = true;
+    private ConnectionListener l;
+
+    public Connection(Socket s, ConnectionListener l)  throws IOException {
+        this.sock = s;
+        this.l = l;
+        out = new DataOutputStream(s.getOutputStream());
+        Thread t = new Thread(this);
+        t.setPriority(Thread.NORM_PRIORITY);
+        t.start();
+    }
+
+    public void send(String mess) throws IOException {
+        out.writeInt(mess.length());
+        out.write(mess.getBytes());
+    }
+
+    public void run() {
+        try{
+            l.connectionCreated(this);
+            DataInputStream in = new DataInputStream(sock.getInputStream());
+            byte[] buf = null;
+            int index = 0;
+            while (doRun) {
+                if (in.available() > 0) {
+                    if (buf == null) {
+                        int size = in.readInt();
+                        buf = new byte[size];
+                        index = 0;
+                    } else {
+                        index+= in.read(buf, index, buf.length-index);
+                        if (index>=buf.length){
+                            l.messageReceived(this, new String(buf));
+                            buf = null;
+                        }
+                    }
+                } else {
+                    Thread.sleep(200);
+                }
+            }
+            sock.close();
+        } catch (Exception ex){
+            l.connectionError(this, ex);
+        } finally {
+            l.connectionClosed(this);
+        }
+
+    }
+
+    public void close(){
+        doRun = false;
+    }
+
+    public String getName(){
+        return sock.getInetAddress().toString();
+    }
+
+}

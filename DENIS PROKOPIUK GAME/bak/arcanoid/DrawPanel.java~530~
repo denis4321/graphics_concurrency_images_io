@@ -1,0 +1,249 @@
+package arcanoid;
+
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.awt.geom.Rectangle2D;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+import javax.swing.JButton;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
+import java.awt.KeyEventPostProcessor;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
+import java.awt.Point;
+import java.awt.GradientPaint;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.GridBagLayout;
+import java.awt.*;
+import javax.swing.JLabel;
+import java.util.Timer;
+import java.util.TimerTask;
+import com.borland.jbcl.layout.PaneLayout;
+import com.borland.jbcl.layout.*;
+import java.util.Random;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class DrawPanel extends JPanel {
+    private Jet ball = new Jet();
+    public ArrayList<JButton> arcanoidBlocks = new ArrayList<JButton>();
+    int flag = 1;
+    Image im = Toolkit.getDefaultToolkit().createImage("night123.jpg");
+    Random rnd =new Random();
+    public boolean bbb;
+    public boolean b;
+    public int kkk;
+    double r;
+    JButton jButton1 = new JButton();
+    JButton jButton2 = new JButton();
+    JButton jButton3 = new JButton();
+    JButton jButton4 = new JButton();
+    JLabel jLabel1 = new JLabel();
+    public Timer t = new Timer();
+    Timer t1 =new Timer();
+    boolean bool=true;
+    JLabel jLabel2 = new JLabel();
+    public DrawPanel() {
+
+        t.scheduleAtFixedRate(new TimerTask() {
+
+            public void run() {
+             //   bool=needToRefresh();
+                //Thread.currentThread().setPriority(1);
+                ball.moveMYbutton(jButton3);
+        System.out.println(needToRefresh()/*+"\t"+arcanoidBlocks.size()*/);
+                if (bool&&needToRefresh()) {setArcanoidBlocks();bool=false;}
+            }
+        }, 1, 10);
+        //this.setArcanoidBlocks();
+        try {
+            jbInit();
+            KeyboardFocusManager.getCurrentKeyboardFocusManager().
+                    addKeyEventPostProcessor(new KeyEventPostProcessor() {
+                public boolean postProcessKeyEvent(KeyEvent e) {
+                    switch (e.getKeyCode()) {
+                    case KeyEvent.VK_SPACE:
+                        if (!bbb) {
+                            bbb = true;
+                            ball.setBombPositionX(jButton3.getX() +
+                                                  jButton3.getWidth() / 2);
+                            ball.setBombPositionY(jButton3.getY() +
+                                                  jButton3.getHeight() - 15);
+                            ball.kinulBomb = true;
+                        }
+                        break;
+                    }
+                    return false;
+                }
+            });
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public Ellipse2D moving() {
+        Ellipse2D ellipse = ball.getEllipseOfBomb(ball.getBombPositionX(),
+                                                  ball.getBombPositionY());
+        return ellipse;
+    }
+
+
+public boolean needToRefresh(){
+    boolean b=true;
+    for(int i=0;i<this.arcanoidBlocks.size();i++){
+        if (arcanoidBlocks.get(i).getActionCommand()!="90") {b=false;
+
+          //   System.out.println(arcanoidBlocks.get(i).getActionCommand() + "sd");
+            break;
+        }
+    }
+    if (b){
+       // for(int i=0;i<this.arcanoidBlocks.size();i++){
+           // arcanoidBlocks.get(i).setActionCommand("90");
+            //bool=!bool;
+   //}
+   bool=true;
+
+    }
+    return b;
+}
+
+
+
+public void removeArcanoidBlocks(){
+
+}
+
+
+
+    public void setArcanoidBlocks() {
+
+        //jButton1 = new JButton();
+        //jButton2 = new JButton();
+        //jButton4 = new JButton();
+
+        arcanoidBlocks.add(jButton1);
+        arcanoidBlocks.add(jButton2);
+        this.add(jButton1);
+        this.add(jButton2);
+        jButton1.setActionCommand("4");
+        jButton2.setActionCommand("4");
+        arcanoidBlocks.add(jButton4);
+        //arcanoidBlocks.add(jButton5);
+        this.add(jButton4);
+        jButton4.setActionCommand("4");
+        //this.add(jButton5);
+
+    /*    arcanoidBlocks.add(jButton6);
+        arcanoidBlocks.add(jButton7);
+        this.add(jButton6);
+        this.add(jButton7);
+
+        arcanoidBlocks.add(jButton8);
+        arcanoidBlocks.add(jButton9);
+        this.add(jButton8);
+        this.add(jButton9);
+
+*/
+        HeroMove heroMove1 =new HeroMove(t1,jButton1,this);
+        jButton1.setLocation(0,this.getHeight()-50);
+        heroMove1.x=0;
+        heroMove1.y=getHeight()-50;
+        heroMove1.runTask();
+
+        HeroMove heroMove2 =new HeroMove(t1,jButton2,this);
+        jButton2.setLocation(400,this.getHeight()-50);
+        heroMove2.x=400;
+        heroMove2.y=getHeight()-50;
+        heroMove2.runTask();
+
+        HeroMove heroMove4 =new HeroMove(t1,jButton4,this);
+         jButton3.setLocation(800,this.getHeight()-50);
+         heroMove4.x=800;
+        heroMove4.y=getHeight()-50;
+        heroMove4.runTask();
+
+        this.add(jButton3);
+
+
+    }
+
+
+    //public void refreshArcan(){
+        //if (arcanoidBlocks.size()==0){
+      //  arcanoidBlocks.add(jButton4);
+        //HeroMove heroMove4 =new HeroMove(t1,jButton4,this);
+      // heroMove4.runTask();
+       //HeroMove heroMove5 =new HeroMove(t1, null,this);
+       //heroMove5.runTask();
+        //}
+    //}
+
+
+    public void cosMoving(Graphics2D g2) {
+        ball.moveOfBomb(this.getBounds(), arcanoidBlocks, jLabel1);
+        if (!b) repaint();
+    }
+
+
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.drawImage(im, 0, 0, this.getWidth(), this.getHeight(), null);
+        g2.setColor(Color.red);
+        if (bbb) {
+            g2.fill(moving());
+            cosMoving(g2);
+        }
+    }
+
+
+
+    private void jbInit() throws Exception {
+        this.setLayout(null);
+        jButton3.setBackground(Color.lightGray);
+        jButton3.setBounds(new Rectangle(168, 46, 90, 100));
+        jButton3.setBorderPainted(false);
+        jButton3.setContentAreaFilled(false);
+        jButton3.setFocusPainted(false);
+        jButton1.setBounds(new Rectangle(184, 263, 75, 45));
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setFocusPainted(false);
+        jButton2.setBounds(new Rectangle(39, 248, 75, 45));
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
+        jButton2.setFocusPainted(false);
+        jButton4.setBounds(new Rectangle(99, 224, 75, 45));
+        jButton4.setBorderPainted(false);
+        jButton4.setContentAreaFilled(false);
+        jButton4.setFocusPainted(false);
+        jButton4.setText("jButton4");
+        jLabel1.setBounds(new Rectangle(36, 47, 26, 15));
+        jLabel2.setForeground(Color.red);
+        jLabel2.setText("ÂÛÏÎËÍÈË ÏÐÎÊÎÏÞÊ ÄÅÍÈÑ denis4321@ukr.net");
+        jLabel2.setBounds(new Rectangle(5, 88, 294, 27));
+        this.add(jLabel1, null);
+        this.add(jButton3, null);
+        this.add(jButton4, null);
+        this.add(jButton1, null);
+        this.add(jButton2, null);
+        this.add(jLabel2);
+    }
+}

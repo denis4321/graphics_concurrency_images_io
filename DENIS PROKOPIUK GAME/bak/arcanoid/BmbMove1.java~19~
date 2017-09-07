@@ -1,0 +1,55 @@
+package arcanoid;
+
+import java.util.Timer;
+import javax.swing.JButton;
+import java.util.TimerTask;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import javax.swing.Icon;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class BmbMove1 {
+    Timer t ;
+    final JButton but;
+    Image[] im = new Image[9];
+    Icon[] ic = new Icon[9];
+
+    public BmbMove1(Timer t, JButton but) {
+        for (int i=0;i<9;i++){
+        im[i] = Toolkit.getDefaultToolkit().createImage(i + ".jpg");
+           ic[i] = new ImageIcon(im[i].getScaledInstance(but.getWidth(),but.getHeight(),
+                   Image.SCALE_AREA_AVERAGING));
+        }
+        this.t=t;
+        this.but=but;
+        final JButton b=but;
+        t.scheduleAtFixedRate(new TimerTask(){
+        int i=-1;
+            public void run() {
+                i++;
+                if (i==8)i=0;
+                //im = Toolkit.getDefaultToolkit().createImage(i + ".jpg");
+           //ic = new ImageIcon(im.getScaledInstance(b.getWidth(),b.getHeight(),
+             //      Image.SCALE_AREA_AVERAGING));
+           b.setText("");
+                b.setIcon(ic[i]);
+                System.out.println(i+"        "+ic[i]);
+            }
+
+        },0,900);
+    }
+
+
+}

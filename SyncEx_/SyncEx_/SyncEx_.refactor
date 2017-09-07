@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refactor PUBLIC "-//Borland Software Corporation//Refactor 1.0//EN" "http://www.borland.com/devsupport/jbuilder/dtds/refactor_1_0.dtd">
+
+<refactor>
+  <rename-class id="7AP0XGVQCG7GBCXN2YSCXR2" creation-time="Wed Mar 31 19:29:29.921 EEST 2010">
+    <old-class-name>syncex_.starter</old-class-name>
+    <new-class-name>syncex_.SyncMain</new-class-name>
+  </rename-class>
+</refactor>
+

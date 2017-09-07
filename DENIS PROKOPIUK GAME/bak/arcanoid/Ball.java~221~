@@ -1,0 +1,144 @@
+package arcanoid;
+
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.awt.geom.Ellipse2D;
+import javax.swing.JButton;
+import java.awt.Color;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Ball {
+    private static final int XSIZE=10,YSIZE=10;
+    private  int dx=1,dy=1;
+    public  double x,y;
+   // public ArrayList<JButton> ar =new ArrayList<JButton>();
+
+
+    public Ball() {
+
+    }
+
+    public double getX(){
+        return x;
+    }
+
+    public double getY(){
+        return y;
+    }
+
+    public void setX(double x1){
+        x=x1;
+    }
+
+    public void setY(double y1){
+       y=y1;
+   }
+
+
+
+    public Ellipse2D getEllipse(double x1,double y1){
+        return new Ellipse2D.Double(x1,y1,XSIZE,YSIZE);
+    }
+
+ /*   public void moveInFront(ArrayList<JButton> bounds){
+        for (int i=0;i<bounds.size();i++){
+            if (x+XSIZE<=notBounds.get(i).getBounds().getMaxX()&&x+XSIZE>=notBounds.get(i).getBounds().getMinX()&&
+                y+YSIZE>=notBounds.get(i).getBounds().getMaxY()&&y+YSIZE<=notBounds.get(i).getBounds().getMinY()){
+                x=notBounds.get(i).getBounds().getMaxX()-XSIZE;
+                dx=-dx;
+                dy=-dy;
+                break;
+            }
+        }
+    }*/
+
+    public void move(Rectangle2D bounds,ArrayList<JButton> notBounds, JButton player){
+        x=x+dx;
+        y+=dy;
+        if (x+XSIZE>=bounds.getMaxX()){
+            x=bounds.getMaxX()-XSIZE;
+            dx=-dx;
+        }
+        if (x<=bounds.getMinX()){
+            x=bounds.getMinX();
+            dx=-dx;
+        }
+        if (y+YSIZE>=bounds.getMaxY()){
+           y=bounds.getMaxY()-YSIZE;
+           dy=-dy;
+       }
+       if (y+YSIZE<=bounds.getMinY()){
+           y=bounds.getMinY();
+           dy=-dy;
+       }
+
+
+
+       if (y+YSIZE>=player.getBounds().getMinY()&&x+XSIZE<=player.getBounds().getMaxX()&&x+XSIZE>=player.getBounds().getMinX()){
+           y=player.getBounds().getMinY()-YSIZE;
+           dy=-dy;
+           dx=dx;
+           System.out.println("ddd");
+       }
+
+
+
+
+//ÏÎÏÀÄÀÍÈÅ Ìß×À Â ÁËÎÊ, ÑÎÎÒÂÅÒÑÒÂÓŞÙÈÅ ÈÇÌÅÍÅÍÈß ÒĞÀÅÊÒÎĞÈÈ Ìß×À, ÏÅĞÅĞÈÑÎÂÊÀ ÁËÎÊÎÂ È ÂÎÇÌÎÆÍÎÅ ÓÄÀËÅÍÈÅ ÎÄÍÎÃÎ ÁËÎÊÀ
+       for (int i=0;i<notBounds.size();i++){
+           boolean toRemove=false;//ÏÅĞÅÌÅÍÍÀß, ÑÈÃÍÀËÈÇÈĞÓŞÙÀß ÓÄÀËÅÍÅÈÅ i-ÒÎÃÎ ÁËÎÊÀ
+
+//ÓÑËÎÂÈÅ ÏÎÏÀÄÅÍÈß Ìß×À ÍÀ ÃĞÀÍÈÖÓ i-ÒÎÃÎ ÁËÎÊÀ
+           if (x+XSIZE<=notBounds.get(i).getBounds().getMaxX()&&x+XSIZE>=notBounds.get(i).getBounds().getMinX()&&
+                y+YSIZE<=notBounds.get(i).getBounds().getMaxY()&&y+YSIZE>=notBounds.get(i).getBounds().getMinY()){
+
+//ÈÇÌÅÍÅÍÈÅ ÖÂÅÒÀ ÁËÎÊÀ, Â ÇÀÂÈÑÈÌÎÑÒÈ ÎÒ ÊÎË-ÂÀ ÏÎÏÀÄÀÍÈÉ Ìß×À ÍÀ ÅÃÎ ÃĞÀÍÈÖÓ: 1-ÊĞÀÑÍÛÉ,2-ÆÅËÒÛÉ, 3-ÇÅËÅÍÛÉ, 4 - ĞÀÇĞÅØÅÍÈÅ ÓÄÀËÅÍÈß
+//ÈËÈ ĞÀÇĞÅØÅÍÈÅ ÓÄÀËÅÍÈß ÁËÎÊÀ
+               Color col=notBounds.get(i).getBackground();
+                if (col!=Color.red)notBounds.get(i).setBackground(Color.red);
+                if (col==Color.red) notBounds.get(i).setBackground(Color.yellow);
+                if (col==Color.yellow)notBounds.get(i).setBackground(Color.GREEN);
+                if (col==Color.GREEN) toRemove=true;
+
+
+                // Ëåâàÿ è âåğõíÿÿ, êîãäà äâèæåíèÿ ñâåğõó âíèç
+                if (dx>0&&dy>0&&x<=notBounds.get(i).getBounds().getMinX()&&y>=notBounds.get(i).getBounds().getMinY()){dx=-dx;System.out.println(1);}
+                else if (dx>0&&dy>0&&y<=notBounds.get(i).getBounds().getMinY()){dy=-dy;}
+
+                // Ëåâàÿ è âåğõíÿÿ, êîãäà äâèæåíèÿ ğàçëè÷íûå
+                else if (dx<0&&dy>0&&y<=notBounds.get(i).getBounds().getMinY()){dy=-dy;}
+                else if (dx>0&&dy<0&&x<=notBounds.get(i).getBounds().getMinX()){dx=-dx;}
+
+                //Íèæíÿÿ è ïğàâàÿ, êîãäà äâèæåíèÿ ñíèçó ââåğõ
+                else   if (dx<0&&dy<0){
+                    //íèç
+                    if (y+YSIZE>=notBounds.get(i).getBounds().getMaxY()){dy=-dy;dx=dx;}
+                    //ïğàâàÿ
+                    else {dx=-dx;dy=-1;System.out.println(6);}
+                 }
+
+                 //Íèæíÿÿ è ïğàâàÿ, êîãäà äâèæåíèÿ ğàçíûå
+                 else if (dx>0&&dy<0&&y+YSIZE>=notBounds.get(i).getBounds().getMaxY()){dy=-dy;dx=dx;}
+                 else {dy=1;dx=-dx;}
+
+                 if (toRemove){
+                     Frame1.drawPanel.remove(Frame1.drawPanel.arcanoidBlocks.get(i));
+                     Frame1.drawPanel.arcanoidBlocks.remove(i);
+                 }
+                 break;
+             }
+         }
+
+     }
+ }

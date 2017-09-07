@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 61
+DNSTest.jar
+DNS_Crawler.jpx.local
+PageParser.jar
+bak
+classes
+
+END

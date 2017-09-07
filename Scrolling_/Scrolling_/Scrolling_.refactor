@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE refactor PUBLIC "-//Borland Software Corporation//Refactor 1.0//EN" "http://www.borland.com/devsupport/jbuilder/dtds/refactor_1_0.dtd">
+
+<refactor>
+  <rename-method id="7AP09FYD789GZ5G0EGUCXR2" creation-time="Sat May 15 11:56:44.265 EEST 2010">
+    <declaring-class-name>scrolling_.MainWind</declaring-class-name>
+    <declared-method-signature>(Ljava/awt/event/ActionEvent;)V</declared-method-signature>
+    <old-method-name>jBtnDir_actionPerformed</old-method-name>
+    <new-method-name>jBtnDir_Pressed</new-method-name>
+  </rename-method>
+</refactor>
+

@@ -1,0 +1,21 @@
+package drawex_;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+import java.awt.*;
+
+public class DrawPanel extends JPanel {
+    BorderLayout borderLayout1 = new BorderLayout();
+
+    public DrawPanel() {
+        setBackground(Color.white);
+    }
+
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.setColor(Color.BLUE);
+        g.drawLine(10, 10, 10, 10);
+    }
+
+}

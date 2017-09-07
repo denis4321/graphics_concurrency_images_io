@@ -1,0 +1,149 @@
+package cards;
+
+import java.awt.Graphics2D;
+import javax.swing.ImageIcon;
+import java.awt.Graphics;
+import javax.swing.JPanel;
+import java.util.Arrays;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.KeyEventPostProcessor;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class PlayerPabel extends JPanel {
+   static int j=-1;
+
+    public PlayerPabel() {
+        try {
+            jbInit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private int repaintsAmount,ownNumber;
+    int xOfHand=9;
+    private static int kinutaCarta=-1;
+
+    public int[] getNumbersOfCards(){
+        int [] a=new int[9];
+        int j=0;
+        for (int i=0;i<36;i=i+4){
+            a[j] = Generator.getKoloda()[i];
+            j++;
+        }
+       // Arrays.sort(a);
+        return a;
+    }
+
+    public static int getKinutaCarta(){
+        return kinutaCarta;
+    }
+
+    public void setKinutaCarta(int i){
+        this.kinutaCarta=i;
+    }
+
+    public void firstPaint(Graphics g){
+        int x=-75;
+//        int [] a=getNumbersOfCards();
+  //          Arrays.sort(a);
+        for (int i=0;i<9;i++){
+            x=x+75;
+            g.drawImage(new ImageIcon("C:\\Documents and Settings\\Me\\Рабочий стол\\my\\"+this.getNumbersOfCards()[i]+"q.PNG").getImage(),x,0,null);
+              }
+    }
+
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        //if (j==-1)
+            this.firstPaint(g);
+
+    }
+
+    public void setOwnNumber(int i){
+       ownNumber=i;
+   }
+
+   public int getOwnNumber(){
+       return ownNumber;
+   }
+
+    public void toRemoveCard(int i){
+        getNumbersOfCards()[i]=-1;
+        repaint();
+   }
+
+   public void setRepaintsAmount(){
+       this.repaintsAmount=0;
+   }
+
+    public void this_mousePressed(MouseEvent e) {
+        boolean b=true;
+        int x1=-75;
+        //int j=-1;
+
+    /*if ((e.getX()<75)&&getNumbersOfCards()[0]!=-1){
+        Frame1.stepsCards.d=getNumbersOfCards()[0];
+               getNumbersOfCards()[0]=-1;
+               Generator.getKoloda()[0]=-1;
+               repaint();
+    Frame1.cp.repaint();
+           Frame1.stepsCards.myMethod1();
+    }*/
+
+
+
+        for (int i=0;i<9;i++){
+            x1=x1+75;
+            if (e.getX()>=x1&&(e.getX()<x1+75)&&getNumbersOfCards()[i]!=-1){
+                System.out.println(Generator.getKoloda()[getNumbersOfCards()[i]]);
+                //Generator.getKoloda()[getNumbersOfCards()[i]] =-1;
+                Frame1.stepsCards.d=getNumbersOfCards()[i];
+                getNumbersOfCards()[i]=-1;
+                Generator.getKoloda()[i*4]=-1;
+                repaint();
+                Frame1.cp.repaint();
+                Frame1.stepsCards.myMethod1();
+            }
+     }
+
+
+     //repaint();
+     //Frame1.cp.repaint();
+       //     Frame1.stepsCards.myMethod1();
+    //}
+}
+
+    private void jbInit() throws Exception {
+        this.addMouseListener(new PlayerPabel_this_mouseAdapter(this));
+    }
+}
+
+
+class PlayerPabel_this_mouseAdapter extends MouseAdapter {
+    private PlayerPabel adaptee;
+    PlayerPabel_this_mouseAdapter(PlayerPabel adaptee) {
+        this.adaptee = adaptee;
+    }
+
+    public void mousePressed(MouseEvent e) {
+        adaptee.this_mousePressed(e);
+    }
+}
+

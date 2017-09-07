@@ -1,0 +1,10 @@
+package syncex_;
+
+public class starter {
+    public starter() {
+    }
+
+    public static void main(String[] args) {
+        starter starter = new starter();
+    }
+}

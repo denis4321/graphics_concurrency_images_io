@@ -1,0 +1,60 @@
+package networksex_.common;
+
+import java.net.Socket;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.DataInputStream;
+
+/**
+ * Собственно сетевое соединение
+ */
+public class Connection implements Runnable{
+    private Socket sock;
+    private DataOutputStream out;
+    private boolean doRun = true;
+
+    public Connection(Socket s) throws IOException {
+        sock = s;
+        out = new DataOutputStream(sock.getOutputStream());
+        Thread t = new Thread(this);
+        t.setPriority(Thread.NORM_PRIORITY);
+        t.setDaemon(true);
+        t.start();
+    }
+
+    public void send(String str) throws IOException {
+        out.writeInt(str.length());
+        out.write(str.getBytes());
+    }
+
+    public void run(){
+        try{
+            DataInputStream in = new DataInputStream(sock.getInputStream());
+            byte[] buf = null;
+            int count = 0;
+            while (doRun){
+                if (in.available()>0){
+                    if (buf==null){
+                        int size = in.readInt();
+                        buf = new byte[size];
+                        count = 0;
+                    } else {
+                        buf[count++] = (byte)in.read();
+                        if (count>=buf.length){
+                            //Сообщение пришло
+                            buf = null;
+                        }
+                    }
+                } else {
+                    Thread.sleep(100);
+                }
+            }
+        } catch (Exception ex){
+
+        }
+    }
+
+    public void close(){
+        doRun = false;
+    }
+}

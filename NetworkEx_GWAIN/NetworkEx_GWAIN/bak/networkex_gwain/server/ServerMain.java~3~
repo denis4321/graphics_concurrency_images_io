@@ -1,0 +1,56 @@
+package networkex_gwain.server;
+
+import java.net.*;
+import networkex_gwain.common.*;
+import java.util.*;
+
+public class ServerMain implements ConnectionListener{
+    private Set<Connection> conns = new LinkedHashSet<Connection>();
+
+    public ServerMain() {
+        try{
+            ServerSocket ss = new ServerSocket(Connection.PORT);
+            System.out.println("Server started");
+            while (true) {
+                Socket s = ss.accept();
+                Connection c = new Connection(s, this);
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        new ServerMain();
+    }
+
+    public synchronized void connectionCreated(Connection conn) {
+        conns.add(conn);
+        System.out.println(conn.getName()+" created");
+    }
+
+    public synchronized void connectionClosed(Connection conn) {
+        conns.remove(conn);
+        System.out.println(conn.getName()+" closed");
+    }
+
+    public synchronized void connectionError(Connection conn, Exception ex) {
+        System.out.println(conn.getName()+" error : ");
+        ex.printStackTrace();
+    }
+
+    public synchronized void messageReceived(Connection conn, String mess) {
+        System.out.println(conn.getName()+" : "+mess.length()+" bytes received");
+        String reply = conn.getName()+": "+mess;
+        for (Connection c : conns){
+            if (c!=conn){
+                try{
+                    c.send(reply);
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                    c.close();
+                }
+            }
+        }
+    }
+}

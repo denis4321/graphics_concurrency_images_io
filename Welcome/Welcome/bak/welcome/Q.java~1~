@@ -1,0 +1,32 @@
+package welcome;
+
+import javax.swing.ImageIcon;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Q {
+  Frame2 frame;
+  public Q(Frame2 f) {
+  frame=f;
+  }
+
+public void da(){
+  int i=1;
+  while(true){
+    if (i>3)i=i+i%3;
+    frame.jLabel1.setIcon(new ImageIcon("C:\\Documents and Settings\\Me\\Рабочий стол\\JAVA-RARS\\ListProject\\ListProject\\ListProject\\"+i+".png"));
+    i++;
+  }
+}
+
+}

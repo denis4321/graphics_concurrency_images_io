@@ -1,0 +1,50 @@
+package welcome;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Rectangle;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Frame2
+    extends JFrame {
+  JPanel contentPane;
+  JLabel jLabel1 = new JLabel();
+  public Frame2() {
+    try {
+
+      setDefaultCloseOperation(EXIT_ON_CLOSE);
+      jbInit();
+      new Q(this).da();
+    }
+    catch (Exception exception) {
+      exception.printStackTrace();
+    }
+  }
+
+  /**
+   * Component initialization.
+   *
+   * @throws java.lang.Exception
+   */
+  private void jbInit() throws Exception {
+    contentPane = (JPanel) getContentPane();
+    contentPane.setLayout(null);
+    setSize(new Dimension(400, 300));
+    setTitle("Frame Title");
+    jLabel1.setText("jLabel1");
+    jLabel1.setBounds(new Rectangle(139, 119, 34, 14));
+    contentPane.add(jLabel1);
+  }
+}

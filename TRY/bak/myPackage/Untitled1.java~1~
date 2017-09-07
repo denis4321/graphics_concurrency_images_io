@@ -1,0 +1,31 @@
+package myPackage;
+
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
+import java.io.PipedInputStream;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2010</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class Untitled1 {
+    public Untitled1() {
+    }
+
+    public static void main(String[] args) {
+      //  Untitled1 untitled1 = new 
+                              PipedOutputStream pOut = new PipedOutputStream();
+        PrintStream p = new PrintStream(pOut);
+        System.setOut(p);
+              PipedInputStream pIn = new PipedInputStream(pOut);
+           //  BufferedInputStream in = new BufferedInputStream(pIn);
+    }
+}

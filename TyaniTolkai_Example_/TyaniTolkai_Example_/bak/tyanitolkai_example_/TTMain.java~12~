@@ -1,0 +1,16 @@
+package tyanitolkai_example_;
+
+public class TTMain {
+    public static Producer p = null;
+    public static Consumer c = null;
+
+    public TTMain() {
+    }
+
+    public static void main(String[] args) {
+        p = new Producer(20);
+        c = new Consumer(60);
+        p.start();
+        c.start();
+    }
+}

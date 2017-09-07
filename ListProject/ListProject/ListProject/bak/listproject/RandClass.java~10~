@@ -1,0 +1,44 @@
+package listproject;
+
+import javax.swing.*;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.awt.Color;
+
+/**
+ * <p>Title: </p>
+ *
+ * <p>Description: </p>
+ *
+ * <p>Copyright: Copyright (c) 2009</p>
+ *
+ * <p>Company: </p>
+ *
+ * @author not attributable
+ * @version 1.0
+ */
+public class RandClass extends JLabel implements ListCellRenderer {
+ArrayList iconImage = new ArrayList();
+public RandClass(ArrayList iconList) {
+this.iconImage=iconList;
+}
+public Component getListCellRendererComponent(JList list, Object value,int index, boolean isSelected, boolean cellHasFocus) {
+if (isSelected){
+setBackground(list.getSelectionBackground());
+setForeground(list.getSelectionForeground());
+}
+if (!isSelected) {
+setBackground(list.getBackground());
+setForeground(list.getForeground());
+}
+if (iconImage!=null)    {
+this.setIcon((Icon)iconImage.get(index));
+}
+if (index!=-1){
+ListModel model = list.getModel();
+this.setText(model.getElementAt(index).toString());
+this.setOpaque(true);
+}
+return this;
+}
+}

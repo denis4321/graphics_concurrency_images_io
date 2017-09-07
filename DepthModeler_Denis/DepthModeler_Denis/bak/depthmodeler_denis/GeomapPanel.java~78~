@@ -1,0 +1,177 @@
+package depthmodeler_denis;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.Graphics;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImageFilter;
+import javax.imageio.ImageReader;
+import java.io.File;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.Color;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
+import java.awt.Point;
+import java.util.Arrays;
+
+public class GeomapPanel extends JPanel {
+    BufferedImage im;
+    MainInt main;
+    File f = new File("geo_earth_map.jpg");
+    Point p1, p2;
+    int [] xPoints;
+    int x1,x2,y1,y2;
+   int count;
+
+    public GeomapPanel(MainInt main) {
+        this.main = main;
+        try {
+            String suf = f.getName().substring(f.getName().lastIndexOf(".") + 1);
+            ImageReader r = ImageIO.getImageReadersBySuffix(suf).next();
+            ImageInputStream in = ImageIO.createImageInputStream(f);
+            r.setInput(in);
+            im = r.read(0);
+            r.dispose();
+            in.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        this.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+//                howDeepByColor();
+                if (count!=0)method(x1,y1,x2,y2);
+                else {System.out.println("sdfdsf");}
+            }
+
+
+            public void mousePressed(MouseEvent e) {
+                p1 = new Point(e.getX(), e.getY());
+                p2 = null;
+                if (count==0){
+                    x1 = e.getX();
+                    y1 = e.getX();
+                }
+                else {
+                    x2=e.getX();
+                    y2=e.getY();
+                }
+                count++;
+                repaint();
+            }
+        }
+        );
+
+        this.addMouseMotionListener(new MouseMotionAdapter() {
+
+
+            public void mouseDragged(MouseEvent e) {
+                p2 = new Point(e.getX(), e.getY());
+                repaint();
+
+            }
+
+        });
+    }
+
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        this.setPreferredSize(new Dimension(im.getWidth(), im.getHeight()));
+        main.Split.revalidate();
+        g.drawImage(im, 0, 0, null);
+        g.setColor(Color.red);
+        if (p1 != null && p2 != null) {
+            g.drawLine(p1.x, p1.y, p2.x, p2.y);
+        }
+    }
+
+
+    public int[] giveCordinats() {
+        int n = (int) (Math.abs(p2.getX() - p1.getX()));
+        //случай прямой вида х=const;
+        if (n == 0) {
+            int m = (int) Math.min(p1.getY(), p2.getY());
+            int min = (int) Math.min(p1.getX(), p2.getX());
+            int[] yPoints = new int[(int) Math.abs(p1.getY() - p2.getY())];
+             xPoints=new int[yPoints.length];
+            for (int i = 0; i < yPoints.length; i++) {
+                yPoints[i] = m + i;
+                xPoints[i]=min;
+            }
+            return yPoints;
+        }
+        //случай прямой вида y=const;
+        //или y=f(x);
+        else {
+            int[] yPoints = new int[n];
+             xPoints = new int[n];
+            int a = (int) (p2.getX() - p1.getX());
+            int b = (int) (p2.getY() - p1.getY());
+
+            int x = (int) Math.max(p1.getX(), p2.getX());
+            int min = (int) Math.min(p1.getX(), p2.getX());
+            for (int i = 0; i < yPoints.length; i++) {
+                //2 случая напрвления прямой:
+
+                //слева-направо
+                if (p1.getX() < p2.getX()) {
+                    yPoints[i] = (int) ((p1.getX() + i - p1.getX()) * b / a +
+                                        p1.getY());
+                    xPoints[i]=min+i;
+                }
+                //справо-налево
+                else {
+                    yPoints[i] = (int) ((p2.getX() + i - p2.getX()) * b / a +
+                                        p2.getY());
+                    xPoints[i]=x-i;
+                }
+            }
+            return yPoints;
+        }
+    }
+
+    public Color[] howDeepByColor(){
+       Color [] colors =new Color[giveCordinats().length];
+        if (im!=null){
+           for (int i=0; i<giveCordinats().length;i++) {
+               int c = im.getRGB(xPoints[i],giveCordinats()[i]);
+               colors[i]=new Color(c);
+               //System.out.println(colors[i]);
+           }
+       }
+       return colors;
+   }
+
+
+   public void method(int x1,int y1,int x2,int y2){
+       int[] r=new int[x2-x1+y2-y1];
+       int[] g=new int[x2-x1+y2-y1];
+       int[] b=new int[x2-x1+y2-y1];
+
+       for (int i=x1; i<x2-x1;i++) {
+             // System.out.println("col");
+           for (int j=y1;j<=y2-y1;j++){
+                  int c=im.getRGB(i,j);
+                  Color col =new Color(c);
+                  System.out.println("col");
+                  r[i-x1+j-y1]=col.getRed();
+                  g[i-x1+j-y1]=col.getGreen();
+                  b[i-x1+j-y1]=col.getBlue();
+              }
+           }
+           Arrays.sort(r);
+           Arrays.sort(g);
+           Arrays.sort(b);
+           System.out.println(r[0]+"  "+r[r.length-1]);
+           System.out.println(g[0]+"  "+g[r.length-1]);
+           System.out.println(b[0]+"  "+b[r.length-1]);
+       }
+
+}

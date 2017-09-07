@@ -1,0 +1,8 @@
+package io_example_;
+
+import java.io.*;
+
+public class MyListModelTranferable implements Serializable{
+    public MyListModelTranferable() {
+    }
+}
